@@ -1,0 +1,15 @@
+.info__title {
+    font-size: larger;
+    /* font-weight: bold; */
+    color: black;
+}
+
+.Info__Match {
+    margin-left: 5px;
+    margin-top: 3px;
+    font-size: large;
+}
+
+.Info {
+    margin-left: 1rem;
+}

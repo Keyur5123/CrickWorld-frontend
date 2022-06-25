@@ -1,0 +1,21 @@
+.Score_Extra_Title {
+    font-weight: 500;
+    color: dimgray;
+    margin-bottom: 0rem;
+}
+
+.Score_Extra_runs {
+    padding-left: 6rem;
+  }
+
+.Match_Score_Total {
+    padding-left: 3.2rem;
+}
+
+.Match_Score_RunRate {
+    padding-left: 5.3rem;
+}
+
+.Match_Score_LastWicket {
+    padding-left: 4.4rem;
+}

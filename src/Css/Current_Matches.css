@@ -1,0 +1,30 @@
+.TeamName {
+    color: black;
+}
+
+.loadMore__btn {
+    background-color: #AA14F0;
+    border-radius: 4px;
+    border: none;
+    margin-top: 1rem;
+    padding: 5px 10px;
+}
+
+.match__Info {
+    color: black
+}
+
+.CurrentMatch__Card__Container:hover {
+    background-color: #b2a0c9;
+    border: none;
+}
+
+.CurrentMatch__Card__Container {
+    background-color: #e0d6ec;   
+}
+ 
+.CurrentMatch__Card {
+    box-shadow: 3px 6px 3px #b0a0c4;
+    border: 0px !important  ;
+    border-radius: 0rem;
+}

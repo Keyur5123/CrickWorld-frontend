@@ -1,0 +1,11 @@
+.Header__options {
+    justify-content: space-around;
+    width: 50%;
+    overflow: scroll;
+}
+
+.Header {
+    Color: white;
+    /* background-color: yellow; */
+    /* overflow: hidden; */
+}
