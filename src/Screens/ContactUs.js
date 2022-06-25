@@ -23,7 +23,7 @@ function Ipl_Teams(props) {
             credentials: "include",
             body: JSON.stringify({ name, email, suggestions })
         })
-        console.log("fdsffdf",eee);
+        console.log("from contact US :- ",eee);
         } catch (error) {
             console.warn("error occure :- ",error)
         }

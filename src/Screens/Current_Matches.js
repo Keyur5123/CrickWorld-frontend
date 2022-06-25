@@ -103,7 +103,7 @@ function Current_Matches(props) {
                                                                     <Row>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`https://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamA}</Card.Title>
                                                                             </div>
                                                                         </Col>
@@ -114,7 +114,7 @@ function Current_Matches(props) {
                                                                         </Col>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-center align-items-center text-center'>
-                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`https://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamB}</Card.Title>
                                                                             </div>
                                                                         </Col>
@@ -134,32 +134,18 @@ function Current_Matches(props) {
                         </div>
                     </Col>
                     <Col xs={12} md={4}>
-                        advertisement
-                        {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                        <ins className="adsbygoogle"
-                            style={{ display: "inline-block",width: "336px", height:"280px" }}
-                            data-ad-client="ca-pub-3199660652950290"
-                            data-adtest="on"
-                            data-ad-slot="6259591966"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({ });
-                        </script> */}
-                        {/* <Advertisement unit='square' test='Square' /> */}
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
+                            crossorigin="anonymous"></script>
 
                         <Divider hidden />
                         <Message info>
-                            <Message.Header>Semantic UI React with GoogleAds</Message.Header>
-                            <p>
-                                An example of usage GoogleAds with Advertisement component from Semantic
-                                UI React.
-                            </p>
+                            <Message.Header>GoogleAds</Message.Header>
                             <Message.List>
                                 <Message.Item>
-                                    Please make sure that you have included GoogleAds code:
-                                    <br />
                                     <code
                                         style={{ fontSize: 10 }}
-                                    >{`<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>`}</code>
+                                    >{<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
+                                    crossorigin="anonymous"></script>}</code>
                                 </Message.Item>
                                 <Message.Item>Also you need to disable your ad blocker 😁</Message.Item>
                             </Message.List>
