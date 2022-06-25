@@ -103,7 +103,7 @@ function Current_Matches(props) {
                                                                     <Row>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`https://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamA}</Card.Title>
                                                                             </div>
                                                                         </Col>
@@ -114,7 +114,7 @@ function Current_Matches(props) {
                                                                         </Col>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-center align-items-center text-center'>
-                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`https://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamB}</Card.Title>
                                                                             </div>
                                                                         </Col>

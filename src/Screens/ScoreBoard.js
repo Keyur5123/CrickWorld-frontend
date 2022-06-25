@@ -55,7 +55,7 @@ function Match_Score() {
                         }
                     })
                 }).catch(err => console.log(err.message))
-        }, 5000)
+        }, 3000)
     }, [])
 
     const getMatchDetails = async (match) => {
@@ -112,7 +112,6 @@ function Match_Score() {
     }
 
     const getRuns = (TeamA, TeamB, livedata) => {
-        console.log(livedata);
 
         setTeamA({
             teamAOver: livedata.oversA,
@@ -121,10 +120,10 @@ function Match_Score() {
         })
 
         if (livedata.wicketB) {
-            setTeamA({
-                teamAOver: livedata.oversB,
-                teamAScore: livedata.wicketB,
-                teamAName: TeamB
+            setTeamB({
+                teamBOver: livedata.oversB,
+                teamBScore: livedata.wicketB,
+                teamBName: TeamB
             })
         }
     }
@@ -141,7 +140,7 @@ function Match_Score() {
                                     <h4>{teams}</h4>
                                     <p>{title}</p>
                                     {result && <h5>{result}</h5>}
-                                    {teamA.teamAScore === "0/0" || teamA.teamAScore == " " ? '' : <h6>{teamA.teamAName} Score :- {teamA.teamAScore} ({teamA.teamAOver})</h6>}
+                                    {teamA.teamAScore === "0/0" || teamA.teamAScore == " " ? '' : <h6>{teamA.teamAName} Score :- {teamA.teamAScore}</h6>}
                                     {teamB.teamBScore === "0/0" ? '' : <h6>{teamB.teamBName} Score :- {teamB.teamBScore} ({teamB.teamBOver})</h6>}
 
                                     <div>
@@ -192,11 +191,11 @@ function Match_Score() {
                                             <p className='Match_Score_Total mb-1'>{last6Balls}</p>
                                         </div>
                                         <div className='d-flex '>
-                                            <p className='Score_Extra_Title mb-1'>Run Rate :- </p>
+                                            <p className='Score_Extra_Title mb-1'>RUN RATE :- </p>
                                             <p className='Match_Score_RunRate mb-1'>{runRate}</p>
                                         </div>
                                         <div className='d-flex '>
-                                            <p className='Score_Extra_Title mb-1'>Last wicket :- </p>
+                                            <p className='Score_Extra_Title mb-1'>LAST WICKET :- </p>
                                             <p className='Match_Score_LastWicket mb-1'>{lastwicket}</p>
                                         </div>
                                     </div>
