@@ -3,9 +3,6 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import Secondary_Header from "./Secondary_Header";
 import "../Css/Current_Matches.css";
 import { Link } from 'react-router-dom';
-import axios from "axios";
-import moment from "moment";
-import { useParams } from "react-router-dom";
 import {
     Advertisement,
     // Container,
@@ -15,15 +12,7 @@ import {
     Message
 } from "semantic-ui-react";
 import AdSense from "react-adsense";
-
-
-
-const styleLink = document.createElement("link");
-styleLink.rel = "stylesheet";
-styleLink.href =
-    "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
-document.head.appendChild(styleLink);
-
+ 
 function Current_Matches(props) {
     const [data1, setData1] = useState([]);
     const [visible, setVisible] = useState(5);
@@ -33,16 +22,11 @@ function Current_Matches(props) {
 
     useEffect(async () => {
 
-        // await axios.get('api/values/LiveLine').then(res => {
-        //     console.log("res :- ", res.data);
-        //     setData1(res.data)
-        // })
-
         await fetch('https://apicricketlivescore.herokuapp.com/matches/current-matches')
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);
-                console.log("TEMPP IS :::---- ", temp)
+                // console.log("TEMPP IS :::---- ", temp)
                 setData1(temp)
             })
             .catch(err => console.log(err))
@@ -55,7 +39,8 @@ function Current_Matches(props) {
     var yyyy = Todays__Date.getFullYear();
 
     Todays__Date = dd + '-' + mm + '-' + yyyy;
-    console.log("Todays__Date :- ", (new Date()).toString().split(' ')[1]);
+    
+    // console.log("Todays__Date :- ", (new Date()).toString().split(' ')[1]);
 
     // let local_date = new Date();
     // console.log("date ::---- ", Number(moment(local_date).format('M')));
@@ -74,6 +59,7 @@ function Current_Matches(props) {
         return str ? str.split(' ')[0] + " : " + str.split(' ')[2].split('-')[0] : ''
     }
 
+
     return (
         <div className='CurrentMatch'>
             <Secondary_Header />
@@ -84,13 +70,12 @@ function Current_Matches(props) {
                             {data1 &&
                                 data1
                                     .filter((obj) => {
-                                        console.log("filter obj is :-- ", obj);
                                         // return Number(obj.Matchtime.split('-')[0]) === curr_date && obj.Matchtime.split('-')[1] === curr_month
                                         return (obj.MatchDate) === Todays__Date
 
                                     })
                                     .map((obj, index) => {
-                                        console.log("index is :- ", obj);
+                                        // console.log("index is :- ", obj);
                                         return (
                                             <div key={index} className="CurrentMatch__Card">
                                                 <Link to={`/match-score/${obj.MatchId}`} className='text-decoration-none text-muted'>
@@ -103,7 +88,7 @@ function Current_Matches(props) {
                                                                     <Row>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                                <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamA}</Card.Title>
                                                                             </div>
                                                                         </Col>
@@ -114,7 +99,7 @@ function Current_Matches(props) {
                                                                         </Col>
                                                                         <Col xs={5}>
                                                                             <div className='d-flex-center align-items-center text-center'>
-                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                                <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
                                                                                 <Card.Title className='TeamName'>{obj.TeamB}</Card.Title>
                                                                             </div>
                                                                         </Col>
@@ -135,33 +120,7 @@ function Current_Matches(props) {
                     </Col>
                     <Col xs={12} md={4}>
                         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
-                            crossorigin="anonymous"></script>
-
-                        <Divider hidden />
-                        <Message info>
-                            <Message.Header>GoogleAds</Message.Header>
-                            <Message.List>
-                                <Message.Item>
-                                    <code
-                                        style={{ fontSize: 10 }}
-                                    >{<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
-                                    crossorigin="anonymous"></script>}</code>
-                                </Message.Item>
-                                <Message.Item>Also you need to disable your ad blocker 😁</Message.Item>
-                            </Message.List>
-                        </Message>
-
-
-                        <Advertisement unit="leaderboard">
-                            <AdSense.Google
-                                client="ca-pub-4591861188995436"
-                                format=""
-                                slot="6710577704"
-                                style={{ display: "inline-block", height: 90, width: 728 }}
-                            />
-                        </Advertisement>
-
-                        <Advertisement unit='small rectangle' test='Small Rectangle' />
+                             crossOrigin="anonymous"></script>
                     </Col>
                 </Row>
             </Container>

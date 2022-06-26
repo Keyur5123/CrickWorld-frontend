@@ -10,9 +10,9 @@ export const StateContext = createContext(initialState);
 export const StateProvider = ({children}) => {
     const [state,dispatch] = useReducer(Reducer,initialState);
 
-    useEffect(() => {
-        console.log("dispatch",state.bowlers);
-    });
+    // useEffect(() => {
+    //     console.log("dispatch",state.bowlers);
+    // });
 
     //HERE WE HAVE TO TAKE NOTE THAT WHEN WE CALL addToBasket({id:svvs , is:svvs}) here id from callled file 
     // and StateProvider file must be same id:svvs is allowed but is:svvs isn't allowed bcz in function definition

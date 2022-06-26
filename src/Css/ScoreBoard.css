@@ -19,3 +19,12 @@
 .Match_Score_LastWicket {
     padding-left: 3.4rem;
 }
+
+.match__result {
+    color: #BC8CF2;
+    font-weight: 700;
+}
+
+.match__title {
+    font-size: small;
+}

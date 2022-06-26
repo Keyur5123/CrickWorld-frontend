@@ -15,6 +15,7 @@ function Match_Score() {
     const [last6Balls, setLast6Balls] = useState('')
     const [lastwicket, setLastWicket] = useState('')
     const [runRate, setRunRate] = useState('')
+    const [matchStatus, setMatchStatus] = useState('')
 
     const [teamA, setTeamA] = useState({
         teamAOver: '',
@@ -55,21 +56,25 @@ function Match_Score() {
                         }
                     })
                 }).catch(err => console.log(err.message))
-        }, 3000)
+        }, 2000)
     }, [])
 
     const getMatchDetails = async (match) => {
         var livedata = JSON.parse(match.jsondata.replaceAll('\n', '\\n')).jsondata
-        const runrate = String(Number(livedata.wicketA.split('/')[0]) / Number(livedata.oversA)).slice(0, 4)
+
+        const runrate = String(Number(livedata.wicketA.split('/')[0]) / Number(livedata.oversA)).slice(0, 4) ?? '-'
+
+        console.log(livedata);
 
         getBatsMan(livedata)
         getBolwer(livedata)
-        getRuns(match.TeamA, match.TeamB, livedata)
+        getRuns(livedata.teamA, livedata.teamB, livedata)
         setResult(match.Result)
         setPartnership(livedata.partnership)
         setLast6Balls(livedata.Last6Balls)
         setRunRate(runrate)
         setLastWicket(livedata.lastwicket)
+        setMatchStatus(livedata.score)
     }
 
     const getBolwer = async (livedata) => {
@@ -96,6 +101,7 @@ function Match_Score() {
             var runs = livedata.oversB.split('|');
             var playerRuns = parseInt(i == 0 ? runs[0].split(',')[1] : runs[0].split(',')[0])
             var playerBols = parseInt(i == 0 ? runs[1].split(',')[1] : runs[1].split(',')[0])
+            // console.log("playerBols", playerBols == 0 ? String((playerRuns / playerBols) * 100).substring(0, 5) : '0');
 
             if (name != '*') {
                 batsman.push({
@@ -104,7 +110,7 @@ function Match_Score() {
                     bols: playerBols,
                     fours: i == 0 ? livedata.s4 : livedata.ns4,
                     sixs: i == 0 ? livedata.s6 : livedata.ns6,
-                    sr: String((playerRuns / playerBols) * 100).substring(0, 5)
+                    sr: playerBols !== 0 ? String((playerRuns / playerBols) * 100).substring(0, 5) : '0'
                 })
             }
         }
@@ -113,21 +119,31 @@ function Match_Score() {
 
     const getRuns = (TeamA, TeamB, livedata) => {
 
-        setTeamA({
-            teamAOver: livedata.oversA,
-            teamAScore: livedata.wicketA,
-            teamAName: TeamA
-        })
-
-        if (livedata.wicketB) {
+        if (livedata.wicketA != "0/0" && (livedata.wicketB == "0/0" || livedata.wicketB.length == '10')) {
+            setTeamA({
+                teamAOver: livedata.oversA,
+                teamAScore: livedata.wicketA,
+                teamAName: TeamA
+            })
+        }
+        else {
             setTeamB({
                 teamBOver: livedata.oversB,
                 teamBScore: livedata.wicketB,
                 teamBName: TeamB
             })
         }
-    }
 
+        // if (livedata.wicketB != "0/0") {
+        //     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        //     setTeamA({
+        //         teamBOver: livedata.oversB,
+        //         teamBScore: livedata.wicketB,
+        //         teamBName: TeamB
+        //     })
+        // }
+    }
+    
     return (
         <div className='w-100 text-align-inherit'>
             <Match_Score_Sec_Header />
@@ -137,14 +153,17 @@ function Match_Score() {
                         <Col xm={12} md={8} className="p-0">
                             <div>
                                 <Container>
-                                    <h4>{teams}</h4>
-                                    <p>{title}</p>
-                                    {result && <h5>{result}</h5>}
-                                    {teamA.teamAScore === "0/0" || teamA.teamAScore == " " ? '' : <h6>{teamA.teamAName} Score :- {teamA.teamAScore}</h6>}
-                                    {teamB.teamBScore === "0/0" ? '' : <h6>{teamB.teamBName} Score :- {teamB.teamBScore} ({teamB.teamBOver})</h6>}
 
                                     <div>
-                                        <table cellSpacing="0" className='mt-2 Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
+                                        <h4 className='mb-1'>{teams}</h4>
+                                        <p className={`match__title ${!result ? 'mb-3' : ''} `}>{title}</p>
+                                        {matchStatus && <h5 className='mb-3 match__result text-center'>STATUS :- {matchStatus}</h5>}
+                                        {result && <h5 className='mb-3 match__result'>{result}</h5>}
+                                        {teamA.teamAScore && <h6 className='mt-1'>{teamA.teamAName} Score :- {teamA.teamAScore} ({teamA.teamAOver})</h6>}
+                                        {teamB.teamBScore && <h6>{teamB.teamBName} Score :- {teamB.teamBScore} ({teamB.teamBOver})</h6>}
+                                        {/* {(teamB || teamB.teamAScore != "0/0") && <h6>{teamB.teamBName} Score :- {teamB.teamBScore} </h6>} */}
+
+                                        <table cellSpacing="0" className='mt-4 Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                                             <thead>
                                                 <tr style={{ backgroundColor: "#BC8CF2" }}>
                                                     <th colSpan="6">Batsmen</th>
@@ -168,7 +187,7 @@ function Match_Score() {
                                                             <th>{player.bols}</th>
                                                             <th>{player.fours}</th>
                                                             <th>{player.sixs}</th>
-                                                            <th>{player.sr}
+                                                            <th>{player.sr ?? '0'}
                                                             </th>
                                                         </tr>
                                                     )
@@ -178,10 +197,6 @@ function Match_Score() {
                                     </div>
 
                                     <div className='mt-3'>
-                                        {result && <div className='d-flex '>
-                                            <p className='Score_Extra_Title mb-1'>Run Rate :- </p>
-                                            <p className='Match_Score_RunRate mb-1'>{result}</p>
-                                        </div>}
                                         <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>PARTNERSHIP :- </p>
                                             <p className='Match_Score_Total mb-1'>{partnership}</p>
@@ -190,14 +205,14 @@ function Match_Score() {
                                             <p className='Score_Extra_Title mb-1'>LAST 6 BALLS :- </p>
                                             <p className='Match_Score_Total mb-1'>{last6Balls}</p>
                                         </div>
-                                        <div className='d-flex '>
+                                        {runRate && <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>RUN RATE :- </p>
-                                            <p className='Match_Score_RunRate mb-1'>{runRate}</p>
-                                        </div>
-                                        <div className='d-flex '>
+                                            <p className='Match_Score_RunRate mb-1'>{runRate || '-'}</p>
+                                        </div>}
+                                        {lastwicket && <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>LAST WICKET :- </p>
                                             <p className='Match_Score_LastWicket mb-1'>{lastwicket}</p>
-                                        </div>
+                                        </div>}
                                     </div>
 
                                     <div className='mt-3'>
@@ -212,7 +227,7 @@ function Match_Score() {
                                                     <th>O</th>
                                                     <th>R</th>
                                                     <th>W</th>
-                                                    <th>Eco</th>
+                                                    <th>ECO</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
