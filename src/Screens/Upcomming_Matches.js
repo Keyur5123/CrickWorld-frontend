@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import Secondary_Header from "./Secondary_Header";
 import "../Css/Upcomming_Matches.css"
-import { Link } from 'react-router-dom';
-import axios from "axios";
 
 function Upcomming_Matches(props) {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(5);
+    const [isLoading, setIsLoading] = useState(true)
 
-    let curr_date;
     let curr_month;
-    let i = 0;
-
-    // _.sortBy(data.Matchtime, { prop: "date" });
 
     useEffect(async () => {
 
@@ -21,70 +16,53 @@ function Upcomming_Matches(props) {
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res.AllMatch).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);
-                console.log("TEMPP IS :::---- ", res)
                 setData(temp)
+                setIsLoading(false)
             })
             .catch(err => console.log(err))
 
-        // await fetch('/api/values/upcomingMatches')
-        //     .then((res) => res.json())
-        //     .then(res => {
-        //         const temp = [].concat(res.AllMatch).sort((a,b)=> a.Matchtime > b.Matchtime ? 1 : -1);
-        //         console.log("TEMPP IS :::---- ",temp)
-        //         setData(temp)
-        //         // console.log("inn-----  ",res.AllMatch)
-        //     })
-        //     .catch(err => console.log(err))
-
     }, []);
-
-
-    // const sortByDate = arr => {
-    //     console.log("arr :- ",arr);
-    //     const sorter = (a, b) => {
-    //         // console.log("a is ",a.Matchtime.split(' ')[0], 'b is :- ',b.Matchtime.split(' ')[0]);
-    //         console.log("sgg ",Date(a.Matchtime).split(' ')[2]);
-    //         console.log("sorter :::----",new Date(a.Matchtime).getDate());
-    //        return new Date(a.Matchtime).getDate() - new Date(b.Matchtime).getDate();
-    //     }
-    //     console.log(arr.sort(sorter));
-    //  };
-    // sortByDate(data);
-
-
-    // const sortedAsc = data.sort(
-    //     (objA, objB) => Number(objA.Matchtime.split(' ')[0]) - Number(objB.Matchtime.split(' ')[0]),
-    //   );
-    // console.warn(sortedAsc);
-
-
-
-    // console.log("inn-----  ",data[0].Matchtime)
 
     const date = new Date();
 
-    curr_date = date.getDate();
-    console.log("Today's date is :- ", (curr_date));  //21
+    const curr_date = date.getDate();  //21 
 
     curr_month = date.toLocaleString('en-us', { month: 'short' });  //'Mar'
-    console.log("Curr Month is :- ", curr_month);
 
     const getFormattedDate = (str) => {
-        i += 1;   //puspose to set that if i.val > 0 then today is atlist one match otherwise not.   & by val of i we can find out the total no of matches held on today 
         return str
-        // return str.split(' ')[0]   // to get specific date like in card header match date will be displayed 02-Jun-2022
     }
 
     return (
         <div className='UpcommingMatch'>
             <Secondary_Header />
             <Container>
+            {isLoading &&
+                    <div className='mx-auto text-center mt-5 spinner'>
+                        <Spinner animation="grow" variant="primary" />
+                        <Spinner animation="grow" variant="secondary" />
+                        <Spinner animation="grow" variant="success" />
+                        <Spinner animation="grow" variant="danger" />
+                        <Spinner animation="grow" variant="warning" />
+                        <Spinner animation="grow" variant="info" />
+                        <Spinner animation="grow" variant="dark" />
+                    </div>
+                }
                 <Row>
                     <Col xs={12} md={8}>
                         <div className='justify-items-center'>
-                            {data.filter((obj) => {
-                                return Number(obj.Matchtime.split('-')[0]) > curr_date && obj.Matchtime.split('-')[1] === curr_month;
-                            }).slice(0, visible).map((obj, index) => {
+                            {/* {data.filter((obj) => {
+                                const arr = []
+                                if(Number(obj.Matchtime.split('-')[0]) > curr_date && obj.Matchtime.split('-')[1] === curr_month){
+                                    arr.push(obj)
+                                }
+                                // console.log(" a : ->>>> ",arr);
+                                return arr.concat(obj)
+                            }) */}
+                            {data.slice(0, visible).map((obj, index) => {
+                                if(!obj){
+                                    <h3>No Matches Found!...</h3>
+                                }
                                 return (
                                     <div key={index}>
                                         <div key={index}>
@@ -96,7 +74,7 @@ function Upcomming_Matches(props) {
                                                         <Row>
                                                             <Col xs={5}>
                                                                 <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
                                                                     <Card.Title>{obj.TeamA}</Card.Title>
                                                                 </div>
                                                             </Col>
@@ -107,7 +85,7 @@ function Upcomming_Matches(props) {
                                                             </Col>
                                                             <Col xs={5}>
                                                                 <div className='d-flex-center align-items-center text-center'>
-                                                                    <img variant="top" className='mb-1 UpcommingMatch__team2__img' height="60px" src={`http://cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                    <img variant="top" className='mb-1 UpcommingMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
                                                                     <Card.Title>{obj.TeamB}</Card.Title>
                                                                 </div>
                                                             </Col>
@@ -122,9 +100,6 @@ function Upcomming_Matches(props) {
                                 )
 
                             })}
-
-
-                            {i === 0 && <h4>Today isn't any match</h4>}
                         </div>
                         <div className='d-flex justify-content-center'>
                             {visible < data.length && (
@@ -133,7 +108,7 @@ function Upcomming_Matches(props) {
                         </div>
                     </Col>
                     <Col xs={12} md={4}>
-                        advertisement
+                        
                     </Col>
                 </Row>
             </Container>

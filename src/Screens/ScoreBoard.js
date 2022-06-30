@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useParams, useSearchParams } from 'react-router-dom';
 import "../Css/ScoreBoard.css";
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
@@ -16,6 +16,7 @@ function Match_Score() {
     const [lastwicket, setLastWicket] = useState('')
     const [runRate, setRunRate] = useState('')
     const [matchStatus, setMatchStatus] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
 
     const [teamA, setTeamA] = useState({
         teamAOver: '',
@@ -29,6 +30,11 @@ function Match_Score() {
         teamBName: ''
     })
 
+    const [firstInningScore, setFirstInningScore] = useState({
+        FirstInningScore: '',
+        FirstInningName: ''
+    });
+
     const [bowlerData, setBowlerData] = useState([]);
     const [batsmanData, setBatsManData] = useState([]);
 
@@ -40,7 +46,9 @@ function Match_Score() {
                     if (match.MatchId == params.id) {
                         setTeams(`${match.TeamA} VS ${match.TeamB}`)
                         setTitle(match.Title)
+
                         getMatchDetails(match)
+                        setIsLoading(false)
                     }
                 })
             }).catch(err => console.log(err.message))
@@ -57,21 +65,22 @@ function Match_Score() {
                     })
                 }).catch(err => console.log(err.message))
         }, 2000)
+
     }, [])
 
     const getMatchDetails = async (match) => {
         var livedata = JSON.parse(match.jsondata.replaceAll('\n', '\\n')).jsondata
 
-        const runrate = String(Number(livedata.wicketA.split('/')[0]) / Number(livedata.oversA)).slice(0, 4) ?? '-'
-
-        console.log(livedata);
+        const runrate = livedata.oversA != '0.0' ? String(Number(livedata.wicketA.split('/')[0]) / Number(livedata.oversA)).slice(0, 4) ?? '-' : ''
+        const partnership = livedata?.partnership !=  "0(0)" ? livedata?.partnership : '' 
+        const Last6Balls = livedata.Last6Balls !== "-----" ? livedata.Last6Balls : ''
 
         getBatsMan(livedata)
         getBolwer(livedata)
         getRuns(livedata.teamA, livedata.teamB, livedata)
         setResult(match.Result)
-        setPartnership(livedata.partnership)
-        setLast6Balls(livedata.Last6Balls)
+        setPartnership(partnership)
+        setLast6Balls(Last6Balls)
         setRunRate(runrate)
         setLastWicket(livedata.lastwicket)
         setMatchStatus(livedata.score)
@@ -80,14 +89,14 @@ function Match_Score() {
     const getBolwer = async (livedata) => {
         var bolwersDetails = []
         for (let i = 1; i <= 8; i++) {
-            if (livedata[`bowler${i}`] != '') {
+            if (livedata[`bowler${i}`] != '' && livedata[`bover${i}`] != '0') {
                 bolwersDetails.push({
                     desc: livedata[`bowler${i}`],
                     name: livedata[`bowler${i}`],
                     over: livedata[`bover${i}`],
                     run: livedata[`brun${i}`],
                     wicket: livedata[`bwicket${i}`],
-                    eco: livedata[`beco${i}`]
+                    eco: parseInt(livedata[`beco${i}`]) || (livedata[`bover${i}`] && String(livedata[`brun${i}`] / livedata[`bover${i}`]).substring(0, 4))
                 })
             }
         }
@@ -101,7 +110,6 @@ function Match_Score() {
             var runs = livedata.oversB.split('|');
             var playerRuns = parseInt(i == 0 ? runs[0].split(',')[1] : runs[0].split(',')[0])
             var playerBols = parseInt(i == 0 ? runs[1].split(',')[1] : runs[1].split(',')[0])
-            // console.log("playerBols", playerBols == 0 ? String((playerRuns / playerBols) * 100).substring(0, 5) : '0');
 
             if (name != '*') {
                 batsman.push({
@@ -118,37 +126,46 @@ function Match_Score() {
     }
 
     const getRuns = (TeamA, TeamB, livedata) => {
+        if (livedata.wicketA != "0/0" && (livedata.wicketB == "0/0" || livedata.wicketB.length >= 9)) {
 
-        if (livedata.wicketA != "0/0" && (livedata.wicketB == "0/0" || livedata.wicketB.length == '10')) {
             setTeamA({
                 teamAOver: livedata.oversA,
                 teamAScore: livedata.wicketA,
                 teamAName: TeamA
             })
+
+            if (livedata.wicketB.length >= 9) {
+                setFirstInningScore({
+                    FirstInningScore: livedata.wicketB,
+                    FirstInningName: TeamB
+                })
+            }
         }
-        else {
+        else if(livedata.oversB != "0,0|0,0") {
             setTeamB({
                 teamBOver: livedata.oversB,
                 teamBScore: livedata.wicketB,
                 teamBName: TeamB
             })
         }
-
-        // if (livedata.wicketB != "0/0") {
-        //     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        //     setTeamA({
-        //         teamBOver: livedata.oversB,
-        //         teamBScore: livedata.wicketB,
-        //         teamBName: TeamB
-        //     })
-        // }
     }
-    
+
     return (
         <div className='w-100 text-align-inherit'>
             <Match_Score_Sec_Header />
             <div>
                 <Container>
+                    {isLoading &&
+                        <div className='mx-auto text-center mt-5 spinner'>
+                            <Spinner animation="grow" variant="primary" />
+                            <Spinner animation="grow" variant="secondary" />
+                            <Spinner animation="grow" variant="success" />
+                            <Spinner animation="grow" variant="danger" />
+                            <Spinner animation="grow" variant="warning" />
+                            <Spinner animation="grow" variant="info" />
+                            <Spinner animation="grow" variant="dark" />
+                        </div>
+                    }
                     <Row>
                         <Col xm={12} md={8} className="p-0">
                             <div>
@@ -156,55 +173,55 @@ function Match_Score() {
 
                                     <div>
                                         <h4 className='mb-1'>{teams}</h4>
-                                        <p className={`match__title ${!result ? 'mb-3' : ''} `}>{title}</p>
-                                        {matchStatus && <h5 className='mb-3 match__result text-center'>STATUS :- {matchStatus}</h5>}
-                                        {result && <h5 className='mb-3 match__result'>{result}</h5>}
-                                        {teamA.teamAScore && <h6 className='mt-1'>{teamA.teamAName} Score :- {teamA.teamAScore} ({teamA.teamAOver})</h6>}
+                                        <p className={'match__title mb-2'}>{title}</p>
+                                        {matchStatus && <h5 className='mb-3 match__result text-center'>Match Status :- {matchStatus}</h5>}
+                                        {teamA.teamAScore && <h6 className='mt-1'>{teamA.teamAName} Score:- {teamA.teamAScore} ({teamA.teamAOver})</h6>}
+                                        {firstInningScore.FirstInningScore && (<h6 className='mt-1'> {firstInningScore.FirstInningName} Score :- {firstInningScore.FirstInningScore} </h6>)}
                                         {teamB.teamBScore && <h6>{teamB.teamBName} Score :- {teamB.teamBScore} ({teamB.teamBOver})</h6>}
-                                        {/* {(teamB || teamB.teamAScore != "0/0") && <h6>{teamB.teamBName} Score :- {teamB.teamBScore} </h6>} */}
 
-                                        <table cellSpacing="0" className='mt-4 Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
-                                            <thead>
-                                                <tr style={{ backgroundColor: "#BC8CF2" }}>
-                                                    <th colSpan="6">Batsmen</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>R</th>
-                                                    <th>B</th>
-                                                    <th>4s</th>
-                                                    <th>6s</th>
-                                                    <th>SR</th>
-                                                </tr>
+                                        {!isLoading &&
+                                            <table cellSpacing="0" className='mt-4 Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
+                                                <thead>
+                                                    <tr style={{ backgroundColor: "#BC8CF2" }}>
+                                                        <th colSpan="6">Batsmen</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        {!batsmanData ? <th>Name</th> : <th></th>}
+                                                        <th>R</th>
+                                                        <th>B</th>
+                                                        <th>4s</th>
+                                                        <th>6s</th>
+                                                        <th>SR</th>
+                                                    </tr>
 
-                                                {batsmanData.map((player, index) => {
-                                                    return (
-                                                        <tr key={index}>
-                                                            <th>{player.name}</th>
-                                                            <th>{player.runs}</th>
-                                                            <th>{player.bols}</th>
-                                                            <th>{player.fours}</th>
-                                                            <th>{player.sixs}</th>
-                                                            <th>{player.sr ?? '0'}
-                                                            </th>
-                                                        </tr>
-                                                    )
-                                                })}
-                                            </tbody>
-                                        </table>
+                                                    {batsmanData.map((player, index) => {
+                                                        return (
+                                                            <tr key={index}>
+                                                                <th>{player.name}</th>
+                                                                <th>{player.runs}</th>
+                                                                <th>{player.bols}</th>
+                                                                <th>{player.fours}</th>
+                                                                <th>{player.sixs}</th>
+                                                                <th>{player.sr ?? '0'}
+                                                                </th>
+                                                            </tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </table>}
                                     </div>
 
                                     <div className='mt-3'>
-                                        <div className='d-flex '>
+                                        {partnership && <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>PARTNERSHIP :- </p>
                                             <p className='Match_Score_Total mb-1'>{partnership}</p>
-                                        </div>
-                                        <div className='d-flex '>
+                                        </div>}
+                                        {last6Balls && <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>LAST 6 BALLS :- </p>
                                             <p className='Match_Score_Total mb-1'>{last6Balls}</p>
-                                        </div>
+                                        </div>}
                                         {runRate && <div className='d-flex '>
                                             <p className='Score_Extra_Title mb-1'>RUN RATE :- </p>
                                             <p className='Match_Score_RunRate mb-1'>{runRate || '-'}</p>
@@ -217,38 +234,39 @@ function Match_Score() {
 
                                     <div className='mt-3'>
 
-                                        <table cellSpacing="0" className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
-                                            <thead>
-                                                <tr style={{ backgroundColor: "#BC8CF2" }}>
-                                                    <th colSpan="6">Bollwers</th>
-                                                </tr>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>O</th>
-                                                    <th>R</th>
-                                                    <th>W</th>
-                                                    <th>ECO</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {bowlerData.map((bowler, index) => (
-                                                    <tr key={index}>
-                                                        <th>{bowler.name}</th>
-                                                        <th>{bowler.over}</th>
-                                                        <th>{bowler.run}</th>
-                                                        <th>{bowler.wicket}</th>
-                                                        <th>{bowler.eco}</th>
+                                        {!isLoading &&
+                                            <table cellSpacing="0" className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
+                                                <thead>
+                                                    <tr style={{ backgroundColor: "#BC8CF2" }}>
+                                                        <th colSpan="6">Bollwers</th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                                    <tr>
+                                                        {!bowlerData ? <th>Name</th> : <th></th>}
+                                                        <th>O</th>
+                                                        <th>R</th>
+                                                        <th>W</th>
+                                                        <th>ECO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {bowlerData && bowlerData.map((bowler, index) => (
+                                                        <tr key={index}>
+                                                            <th>{bowler.name}</th>
+                                                            <th>{bowler.over}</th>
+                                                            <th>{bowler.run}</th>
+                                                            <th>{bowler.wicket}</th>
+                                                            <th>{bowler.eco}</th>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>}
                                     </div>
                                 </Container>
 
                             </div>
                         </Col>
                         <Col xm={12} md={4}>
-                            Advertisement
+
                         </Col>
                     </Row>
                 </Container>

@@ -4,9 +4,9 @@ import Header from "./Screens/Header"
 import Current_Matches from './Screens/Current_Matches';
 import Upcomming_Matches from './Screens/Upcomming_Matches';
 import ScoreBoard from './Screens/ScoreBoard';
-import Point_Table from './Screens/Point_Table';
+import Rankings from './Screens/Rankings';
 import ContactUs from './Screens/ContactUs';
-import Ipl_News from './Screens/Ipl_News';
+import News from './Screens/News';
 import Info from './Screens/Info';
 import Privacy_Policy from "./Screens/Privacy_Policy"
 
@@ -20,9 +20,9 @@ function App(props) {
               <Route path="/matches/upcomming-matches" element={<Upcomming_Matches />} />
             <Route path="/match-score/:id" element={<ScoreBoard />} />   
             <Route path="/info/:id" element={<Info />} />
-            <Route path="/ipl-team-point" element={<Point_Table />} />
+            <Route path="/top-ranking-players" element={<Rankings />} />
             <Route path="/contactus" element={<ContactUs />} />
-            <Route path="/ipl-news" element={<Ipl_News />} />
+            <Route path="/cricket-news" element={<News />} />
             <Route path="/privacypolicy" element={<Privacy_Policy />} />
         </Routes>
       </BrowserRouter>

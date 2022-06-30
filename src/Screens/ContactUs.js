@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Carousel, Col, Container, Form, Image, Row } from "react-bootstrap"
+import { Alert, Button, Card, Carousel, Col, Container, Form, Image, Row } from "react-bootstrap"
 import "../Css/ContactUs.css"
+import contactUs__Banner from "../Images/contactUs__Banner.jpg"
 
 function Ipl_Teams(props) {
 
@@ -8,61 +9,106 @@ function Ipl_Teams(props) {
     const [email, setEmail] = useState('')
     const [suggestions, setSuggestions] = useState('')
 
-    useEffect(async () => {
+    const [contact, setContact] = useState({ name: '', email: '', suggestions: '' })
+    const [isResponseSave, setIsResponseSave] = useState('')
 
-    })
 
-    async function sendSuggestion() {
+    const handlerChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        setContact({ ...contact, [name]: value })
+    }
+
+    const sendSuggestion = async (e) => {
         try {
-            const eee = await fetch('https://apicricketlivescore.herokuapp.com/contactUs', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'Accept': 'application/json'
-            },
-            credentials: "include",
-            body: JSON.stringify({ name, email, suggestions })
-        })
-        console.log("from contact US :- ",eee);
+            e.preventDefault();
+
+            const { name, email, suggestions } = contact
+
+            const res = await fetch('https://apicricketlivescore.herokuapp.com/contactUs', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, suggestions })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    setContact({ name: '', email: '', suggestions: '' })
+                    setIsResponseSave(res?.message)
+                })
+
+
         } catch (error) {
-            console.warn("error occure :- ",error)
+            setIsResponseSave("Something wrong happening!...." + <br /> + "Please try again!....")
         }
-        
+
     }
 
     return (
         <div>
-            <img
-                className="carousel d-block w-100"
-                //, filter: brightness(50%)
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzAv5yZ96H06spu2rAXYpSLuHOR_saRxM58w&usqp=CAU"
-                alt="First slide"
-                height="300px"
-            />
+
+            <div className='contactUs__Banner'>
+
+                {/* <img
+                    className="w-100 carousel"
+                    src={contactUs__Banner}
+                    alt="Banner"
+                /> */}
+
+                <Image className='carousel' src={contactUs__Banner} />
+                <h2 className='centered mb-0'>Contact Us</h2>
+
+            </div>
 
             <Container>
+
+                {isResponseSave &&
+                    <Alert className='mt-5' variant='success'>
+                        <span role="img" aria-label="sad">{isResponseSave} 😃</span>
+                    </Alert>
+                }
                 <div className='justify-content-center justify-items-center'>
-                    <h3 className='text-center mt-3'>Contact Us</h3>
+
                     <Row className="justify-content-md-center mt-3">
                         <Col sm={6}>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="formBasicName" onChange={(e) => setName(e.target.value)}>
+                            <Form onSubmit={sendSuggestion}>
+                                <Form.Group className="mb-3" controlId="formBasicName">
                                     <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter name" />
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter name"
+                                        name="name"
+                                        value={contact.name}
+                                        onChange={handlerChange}
+                                        required />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicEmail" onChange={(e) => setEmail(e.target.value)}>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" />
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter email"
+                                        name="email"
+                                        value={contact.email}
+                                        onChange={handlerChange}
+                                        required />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicPassword" onChange={(e) => setSuggestions(e.target.value)}>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Label>How may we help you?</Form.Label>
-                                    <Form.Control type="text" placeholder="Sent A Responce" />
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Sent A Responce"
+                                        name="suggestions"
+                                        value={contact.suggestions}
+                                        onChange={handlerChange}
+                                        required />
                                 </Form.Group>
 
-                                <div className='mt-2 mb-2 justify-content-center d-flex'>
-                                    <Button variant="primary" type="submit" onClick={sendSuggestion}>
+                                <div className='mt-2 mb-3 justify-content-center d-flex'>
+                                    <Button variant="primary" type="submit">
                                         Submit
                                     </Button>
                                 </div>

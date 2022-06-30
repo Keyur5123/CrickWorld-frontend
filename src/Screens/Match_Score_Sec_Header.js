@@ -14,9 +14,6 @@ function Match_Score_Sec_Header(props) {
                 <Link to={`/info/${params.id}`} className='text-normal text-decoration-none text-muted'>
                     <p className='Secondary_header'>Info</p>
                 </Link>
-                {/* <Link to="/" className='text-normal text-decoration-none text-muted'>
-                    <p className='Secondary_header'>States</p>
-                </Link> */}
             </div>
             <hr className='mt-0' />
         </Container>

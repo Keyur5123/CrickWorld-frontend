@@ -1,6 +1,20 @@
 .carousel {
     opacity: 0.8;
-    filter: brightness(60%);
-    background-color: black;
+    filter: brightness(50%);
+    background-color: rgb(11, 9, 9);
+    width: 100%;
+    margin-top: -10px;
 }
 
+.contactUs__Banner {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row, Container, Spinner } from 'react-bootstrap';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import { useParams } from 'react-router-dom';
 import "../Css/Info.css"
@@ -7,14 +7,15 @@ import "../Css/Info.css"
 function Info(props) {
 
     const params = useParams();
-    console.log("sdgs :- ", params.id);
     const [allMatchData, setAllMatchData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
         await fetch('https://apicricketlivescore.herokuapp.com/Info')
             .then(res => res.json())
             .then(res => {
                 setAllMatchData(res)
+                setIsLoading(false)
             }).catch(err => console.log(err.message))
     }, [])
 
@@ -22,14 +23,25 @@ function Info(props) {
         <Container>
             <div>
                 <Match_Score_Sec_Header />
+
+                {isLoading &&
+                    <div className='mx-auto text-center mt-5 spinner'>
+                        <Spinner animation="grow" variant="primary" />
+                        <Spinner animation="grow" variant="secondary" />
+                        <Spinner animation="grow" variant="success" />
+                        <Spinner animation="grow" variant="danger" />
+                        <Spinner animation="grow" variant="warning" />
+                        <Spinner animation="grow" variant="info" />
+                        <Spinner animation="grow" variant="dark" />
+                    </div>
+                }
+
                 {allMatchData && allMatchData.filter((obj) => {
-                    console.log("obj", params.id);
                     return obj.MatchId == params.id
                 }).map((obj, index) => {
                     let title;
                     if (obj.jsondata.title) {
                         title = JSON.parse(obj.jsondata).jsondata.title.split('\n')[10].substring(7)
-                        console.log("objvsvsvvvfvs :- ", title);
                     }
 
                     return (
@@ -50,7 +62,7 @@ function Info(props) {
                                     </div>
                                     <div className='d-flex'>
                                         <p className='info__title'>Time :- </p>
-                                        <p className='Info__Match'>{obj.Matchtime.split('at ')[1]}</p>
+                                        <p className='Info__Match'>{obj.Matchtime.split('at ')}</p>
                                     </div>
                                     <div className='d-flex'>
                                         <p className='info__title'>Venue :- </p>
@@ -58,9 +70,6 @@ function Info(props) {
                                     </div>
                                    
                                 </div>
-                            </Col>
-                            <Col xm={12} md={4} >
-                                <p>Advertisement</p>
                             </Col>
                         </Row>
                     )
