@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios"
 import { Alert, Card, Col, Container, Row, Spinner } from "react-bootstrap"
 import { getApiKey } from '../RapidApi/getApiKey';
+import { googleAnalytics } from '../googleAnalytics/utils';
 
 function Ipl_News(props) {
 
@@ -14,6 +15,26 @@ function Ipl_News(props) {
         'X-RapidAPI-Key': getApiKey(),
         'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
     }
+
+    useEffect(async () => {
+
+        googleAnalytics()
+
+        newsListByTopics()
+        await newsList()
+        await newsListByCategory()
+        setIsLoading(false)
+
+        setInterval(async () => {
+            setIsLoading(true)
+            await newsList()
+            await newsListByTopics()
+            await newsListByCategory()
+            setIsLoading(false)
+        }, 1000 * 10 * 60)
+
+    }, [])
+
 
     const UnixToInsDateConverter = (unixDate) => {
         const timestamp = parseInt(unixDate)
@@ -66,23 +87,6 @@ function Ipl_News(props) {
                 .catch(err => console.log("errr ;_ ", err))
         }
     }
-
-    useEffect(async () => {
-
-        newsListByTopics()
-        await newsList()
-        await newsListByCategory()
-        setIsLoading(false)
-
-        setInterval(async () => {
-            setIsLoading(true)
-            await newsList()
-            await newsListByTopics()
-            await newsListByCategory()
-            setIsLoading(false)
-        }, 1000 * 10 * 60)
-
-    }, [])
 
     const ads = <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
         crossOrigin="anonymous" ></script>

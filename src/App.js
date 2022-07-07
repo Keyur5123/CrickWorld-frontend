@@ -8,17 +8,9 @@ import Rankings from './Screens/Rankings';
 import ContactUs from './Screens/ContactUs';
 import News from './Screens/News';
 import Info from './Screens/Info';
-import Privacy_Policy from "./Screens/Privacy_Policy"
-
-import ReactGA from 'react-ga';
-ReactGA.initialize('UA-233488918-1');
+import Privacy_Policy from "./Screens/Privacy_Policy";
 
 function App(props) {
-
-  useEffect(() => {
-    console.log("hello ");
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  },[])
 
   return (
     <div>

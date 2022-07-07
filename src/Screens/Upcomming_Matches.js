@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import Secondary_Header from "./Secondary_Header";
-import "../Css/Upcomming_Matches.css"
+import "../Css/Upcomming_Matches.css";
+import { googleAnalytics } from '../googleAnalytics/utils';
 
 function Upcomming_Matches(props) {
     const [data, setData] = useState([]);
@@ -11,6 +12,8 @@ function Upcomming_Matches(props) {
     let curr_month;
 
     useEffect(async () => {
+
+        googleAnalytics()
 
         await fetch('https://apicricketlivescore.herokuapp.com/matches/upcomming-matches')
             .then((res) => res.json())
@@ -51,14 +54,6 @@ function Upcomming_Matches(props) {
                 <Row>
                     <Col xs={12} md={8}>
                         <div className='justify-items-center'>
-                            {/* {data.filter((obj) => {
-                                const arr = []
-                                if(Number(obj.Matchtime.split('-')[0]) > curr_date && obj.Matchtime.split('-')[1] === curr_month){
-                                    arr.push(obj)
-                                }
-                                // console.log(" a : ->>>> ",arr);
-                                return arr.concat(obj)
-                            }) */}
                             {data.slice(0, visible).map((obj, index) => {
                                 if(!obj){
                                     <h3>No Matches Found!...</h3>
@@ -73,8 +68,8 @@ function Upcomming_Matches(props) {
                                                     <Card.Body className='p-0 pt-2 pb-2'>
                                                         <Row>
                                                             <Col xs={5}>
-                                                                <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                <div className='d-flex-end align-items-center text-center'>
+                                                                    {/* <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} /> */}
                                                                     <Card.Title>{obj.TeamA}</Card.Title>
                                                                 </div>
                                                             </Col>
@@ -85,7 +80,7 @@ function Upcomming_Matches(props) {
                                                             </Col>
                                                             <Col xs={5}>
                                                                 <div className='d-flex-center align-items-center text-center'>
-                                                                    <img variant="top" className='mb-1 UpcommingMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                    {/* <img variant="top" className='mb-1 UpcommingMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} /> */}
                                                                     <Card.Title>{obj.TeamB}</Card.Title>
                                                                 </div>
                                                             </Col>

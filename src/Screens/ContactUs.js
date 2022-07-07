@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Carousel, Col, Container, Form, Image, Row } from "react-bootstrap"
-import "../Css/ContactUs.css"
-import contactUs__Banner from "../Images/contactUs__Banner.jpg"
+import { Alert, Button, Card, Carousel, Col, Container, Form, Image, Row } from "react-bootstrap";
+import "../Css/ContactUs.css";
+import contactUs__Banner from "../Images/contactUs__Banner.jpg";
+import { googleAnalytics } from '../googleAnalytics/utils';
 
 function Ipl_Teams(props) {
-
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [suggestions, setSuggestions] = useState('')
 
     const [contact, setContact] = useState({ name: '', email: '', suggestions: '' })
     const [isResponseSave, setIsResponseSave] = useState('')
 
+    useEffect(() => {
+        googleAnalytics()
+    }, [])
 
     const handlerChange = (e) => {
         const name = e.target.name
@@ -50,16 +50,8 @@ function Ipl_Teams(props) {
         <div>
 
             <div className='contactUs__Banner'>
-
-                {/* <img
-                    className="w-100 carousel"
-                    src={contactUs__Banner}
-                    alt="Banner"
-                /> */}
-
                 <Image className='carousel' src={contactUs__Banner} />
                 <h2 className='centered mb-0'>Contact Us</h2>
-
             </div>
 
             <Container>

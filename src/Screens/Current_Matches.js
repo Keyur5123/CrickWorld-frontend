@@ -3,15 +3,15 @@ import { Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import Secondary_Header from "./Secondary_Header";
 import "../Css/Current_Matches.css";
 import { Link } from 'react-router-dom';
-
-
+import { googleAnalytics } from '../googleAnalytics/utils';
 
 function Current_Matches(props) {
     const [data1, setData1] = useState([]);
-    const [visible, setVisible] = useState(5);
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
+
+        googleAnalytics()
 
         await fetch('https://apicricketlivescore.herokuapp.com/matches/current-matches')
             .then((res) => res.json())
@@ -28,8 +28,6 @@ function Current_Matches(props) {
     var dd = String(Todays__Date.getDate()).padStart(2, '0');
     var mm = String(Todays__Date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = Todays__Date.getFullYear();
-
-    var localtime = Todays__Date.toLocaleTimeString('en-US', { hour12: true });
 
     Todays__Date = dd + '-' + mm + '-' + yyyy;
 
@@ -72,7 +70,6 @@ function Current_Matches(props) {
                                         }
                                         return (obj.MatchDate) === Todays__Date
                                     })
-                                    .slice(0, visible)
                                     .map((obj, index) => (
                                         <div key={index} className="CurrentMatch__Card">
                                             <Link to={`/match-score/${obj.MatchId}`} className='text-decoration-none text-muted'>
@@ -84,8 +81,8 @@ function Current_Matches(props) {
                                                             <Card.Body className='p-0 pt-2 pb-2'>
                                                                 <Row>
                                                                     <Col xs={5}>
-                                                                        <div className='d-flex-end CurrMatch__team1 align-items-center text-center'>
-                                                                            <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} />
+                                                                        <div className='d-flex-end align-items-center text-center'>
+                                                                            {/* <img className='mb-1 CurrMatch__team1__img' variant="top" height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamAImage}`} alt={obj.TeamAImage} /> */}
                                                                             <Card.Title className='TeamName'>{obj.TeamA}</Card.Title>
                                                                         </div>
                                                                     </Col>
@@ -96,7 +93,7 @@ function Current_Matches(props) {
                                                                     </Col>
                                                                     <Col xs={5}>
                                                                         <div className='d-flex-center align-items-center text-center'>
-                                                                            <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} />
+                                                                            {/* <img variant="top" className='mb-1 CurrMatch__team2__img' height="60px" src={`//cricnet.co.in/ManagePlaying/TeamImages/${obj.TeamBImage}`} alt={obj.TeamBImage} /> */}
                                                                             <Card.Title className='TeamName'>{obj.TeamB}</Card.Title>
                                                                         </div>
                                                                     </Col>

@@ -4,13 +4,14 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import "../Css/ScoreBoard.css";
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import _ from 'lodash';
+import ReactGA from "react-ga";
+import { googleAnalyticsForScoreBoard } from '../googleAnalytics/utils';
 
 function Match_Score() {
     const params = useParams();
 
     const [teams, setTeams] = useState('')
     const [title, setTitle] = useState('')
-    const [result, setResult] = useState('')
     const [partnership, setPartnership] = useState('')
     const [last6Balls, setLast6Balls] = useState('')
     const [lastwicket, setLastWicket] = useState('')
@@ -68,17 +69,22 @@ function Match_Score() {
 
     }, [])
 
+    useEffect(() => {
+        if (teams) {
+            googleAnalyticsForScoreBoard(teams)
+        }
+    })
+
     const getMatchDetails = async (match) => {
         var livedata = JSON.parse(match.jsondata.replaceAll('\n', '\\n')).jsondata
 
         const runrate = livedata.oversA != '0.0' ? String(Number(livedata.wicketA.split('/')[0]) / Number(livedata.oversA)).slice(0, 4) ?? '-' : ''
-        const partnership = livedata?.partnership !=  "0(0)" ? livedata?.partnership : '' 
+        const partnership = livedata?.partnership != "0(0)" ? livedata?.partnership : ''
         const Last6Balls = livedata.Last6Balls !== "-----" ? livedata.Last6Balls : ''
 
         getBatsMan(livedata)
         getBolwer(livedata)
         getRuns(livedata.teamA, livedata.teamB, livedata)
-        setResult(match.Result)
         setPartnership(partnership)
         setLast6Balls(Last6Balls)
         setRunRate(runrate)
@@ -89,7 +95,7 @@ function Match_Score() {
     const getBolwer = async (livedata) => {
         var bolwersDetails = []
         for (let i = 1; i <= 8; i++) {
-            if (livedata[`bowler${i}`] != '' && livedata[`bover${i}`] != '0') {
+            if (livedata[`bowler${i}`] != "" && livedata[`bover${i}`] != '0' && livedata[`bowler${i}`] != undefined && livedata[`bowler${i}`].length != 0) {
                 bolwersDetails.push({
                     desc: livedata[`bowler${i}`],
                     name: livedata[`bowler${i}`],
@@ -141,7 +147,7 @@ function Match_Score() {
                 })
             }
         }
-        else if(livedata.oversB != "0,0|0,0") {
+        else if (livedata.oversB != "0,0|0,0") {
             setTeamB({
                 teamBOver: livedata.oversB,
                 teamBScore: livedata.wicketB,
@@ -232,7 +238,7 @@ function Match_Score() {
                                         </div>}
                                     </div>
 
-                                    <div className='mt-3'>
+                                    <div className='mt-3 mb-3'>
 
                                         {!isLoading &&
                                             <table cellSpacing="0" className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>

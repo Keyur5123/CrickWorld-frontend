@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Container, Spinner } from 'react-bootstrap';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import { useParams } from 'react-router-dom';
-import "../Css/Info.css"
+import "../Css/Info.css";
+import { googleAnalytics } from '../googleAnalytics/utils';
 
 function Info(props) {
 
@@ -11,6 +12,9 @@ function Info(props) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
+
+        googleAnalytics()
+
         await fetch('https://apicricketlivescore.herokuapp.com/Info')
             .then(res => res.json())
             .then(res => {
