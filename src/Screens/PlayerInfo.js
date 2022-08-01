@@ -16,7 +16,7 @@ function PlayerInfo(props) {
     const [reset, SetReset] = useState(false);
 
     useEffect(async () => {
-        await fetch('http://localhost:5000/player-info', {
+        await fetch('https://apicricketlivescore.herokuapp.com/player-info', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
