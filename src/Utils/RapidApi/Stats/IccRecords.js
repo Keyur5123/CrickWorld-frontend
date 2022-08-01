@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { getApiKey } from '../getApiKey';
+import { getRapidApiKey } from '../getRapidApiKey';
 import { Alert, Container, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 
 function IccRecords(props) {
@@ -23,7 +23,7 @@ function IccRecords(props) {
             url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/topstats',
             params: { statsType: recordFilterForBatsman, year: recordFilterYear },
             headers: {
-                'X-RapidAPI-Key': getApiKey(),
+                'X-RapidAPI-Key': getRapidApiKey(),
                 'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
             }
         };
@@ -44,7 +44,7 @@ function IccRecords(props) {
             url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/topstats/0',
             params: { statsType: recordFilterForBatsman, year: recordFilterYear.toString() },
             headers: {
-                'X-RapidAPI-Key': getApiKey(),
+                'X-RapidAPI-Key': getRapidApiKey(),
                 'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
             }
         };
@@ -88,9 +88,9 @@ function IccRecords(props) {
         }, 3000)
     },[])
 
-    useEffect(async () => {
+    useEffect(() => {
         
-        await fetchDataFromApi();    // get-records
+        fetchDataFromApi();    // get-records
 
         setTimeout(() => {
             if (isLoading == true && playerData.length == 0) {
@@ -105,7 +105,7 @@ function IccRecords(props) {
         <div>
             <Container>
                 {isLoading &&
-                    <div className='my-auto text-center mt-5 spinner'>
+                    <div className='mt-5 text-center'>
                         <Spinner animation="grow" variant="primary" />
                         <Spinner animation="grow" variant="secondary" />
                         <Spinner animation="grow" variant="success" />
@@ -140,6 +140,7 @@ function IccRecords(props) {
                 <table cellSpacing="0" className='mt-4 mb-3 Record_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                     <thead>
                         <tr style={{ backgroundColor: "#BC8CF2" }}>
+                        <th>No</th>
                             {tableHeaders && tableHeaders?.map((value, index) => {
                                 return <th key={index}>{value}</th>
                             })}
@@ -148,6 +149,7 @@ function IccRecords(props) {
                     <tbody>
                         {playerData && playerData?.slice(0, visible).map((obj, index) => (
                             <tr key={index}>
+                                <td>{index+1}</td>
                                 <td>{obj.values[1]}</td>
                                 <td>{obj.values[2]}</td>
                                 <td>{obj.values[3]}</td>

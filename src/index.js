@@ -7,11 +7,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { StateProvider } from './StateProvider';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <StateProvider >
       <App />
     </StateProvider>
-  </React.StrictMode>,
+  // {/* </React.StrictMode> */}
+  ,
   document.getElementById('root')
 );
 

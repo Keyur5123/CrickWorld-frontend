@@ -3,3 +3,14 @@
     margin: 0px 10px 0px 0px;
     color: black;
 }
+
+.home {
+    margin-top: 3.3rem;
+    margin-bottom: 3px;
+}
+
+
+.navLink__subHeader {
+    color: black !important;
+    text-decoration: none;
+}

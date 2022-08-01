@@ -1,0 +1,31 @@
+.news__devider {
+    border-top: 0.1px gray !important;
+}
+.news__title {
+    margin-left: 10px !important;
+    color: black;
+}
+
+.NewsApi__RedirectLink {
+    text-decoration: none;
+    color: black;
+}
+
+.NewsApi__RedirectLink :hover {
+    text-decoration: underline;
+    color:black;
+}
+
+@media all and (max-width:500px){
+    .NewsApi__Header{
+        text-align: center;
+        text-decoration: underline;
+        margin: 1.5rem 0rem 1.5rem 0rem !important;
+    }
+}
+
+.NewsApi__Header{
+    text-align: center;
+    text-decoration: underline;
+    margin: 0rem 0rem 1rem 0rem !important;
+}

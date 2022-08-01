@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Card, Carousel, Col, Container, Form, Image, Row } from "react-bootstrap";
 import "../Css/ContactUs.css";
-import contactUs__Banner from "../Images/contactUs__Banner.jpg";
-import { googleAnalytics } from '../googleAnalytics/utils';
+import contactUs__Banner from "../Utils/Images/contactUs__Banner.jpg";
+import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 
 function Ipl_Teams(props) {
 
@@ -47,7 +47,7 @@ function Ipl_Teams(props) {
     }
 
     return (
-        <div>
+        <div className='ContactUS'>
 
             <div className='contactUs__Banner'>
                 <Image className='carousel' src={contactUs__Banner} />

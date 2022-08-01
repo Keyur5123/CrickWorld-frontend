@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import IccRankings from '../RapidApi/Stats/IccRankings';
-import IccRecords from '../RapidApi/Stats/IccRecords';
-import { googleAnalytics } from '../googleAnalytics/utils';
+import IccRankings from '../Utils/RapidApi/Stats/IccRankings';
+import IccRecords from '../Utils/RapidApi/Stats/IccRecords';
+import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 
 function Point_Table(props) {
 
@@ -10,7 +10,7 @@ function Point_Table(props) {
     }, [])
 
     return (
-        <div>
+        <div className='mt-5'>
             <IccRankings />
             <IccRecords />
         </div>

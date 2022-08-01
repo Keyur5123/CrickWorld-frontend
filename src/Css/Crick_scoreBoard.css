@@ -1,0 +1,83 @@
+.match__status {
+    color: #BC8CF2;
+    font-weight: 700;
+}
+
+.batsman__status {
+    font-size: small;
+}
+
+.ScoreBoard__title {
+    font-weight: 500;
+    font-size: large;
+    margin: 0px;
+}
+
+.ScoreBoard__extra {
+    padding-left: 5rem;
+    margin: 0px;
+}
+
+.ScoreBoard__score {
+    padding-left: 4.7rem;
+    margin: 0px;
+}
+
+.Team__Score__Buttons {
+    justify-content: space-evenly;
+}
+
+.Link__PlayerInfo {
+    color: black !important;
+    text-decoration: none;
+}
+
+.Link__PlayerInfo :hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.SelectedTeam__Button {
+    color: white !important;
+    border: 1px solid #BC8CF2 !important;
+    background-color: #BC8CF2 !important;
+    padding: 10px 10px !important;
+    border-radius: 10px !important;
+}
+
+.UnSelectedTeam__Button {
+    border: 1px solid #BC8CF2 !important;
+    padding: 10px 10px !important;
+    border-radius: 10px !important;
+}
+
+@media all and (max-width: 500px) {
+    .player__status__row {
+        display: none;
+    }
+
+    .player__status__col {
+        font-size: 14px;
+    }
+
+    .ScoreBoard__Col__Container {
+        display: block;
+    }
+
+    th,td {
+        padding: 1px 5px;
+    }
+
+}
+
+@media all and (min-width: 500px) {
+    .player__status__col {
+        display: none;
+    }
+
+    th,td {
+        padding: 4px 5px;
+    }
+
+
+}

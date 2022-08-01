@@ -1,0 +1,20 @@
+Warnings To be Solve...
+
+// APp.js -> dark mode set karti vakkhte margin 6odela 6 tya issue ave 6!...
+
+//Header.js
+    (1) Selected nathi retu Nav.Items ni itemds (for ex Matches -> / ma rese but /upcomming-matcehs ma 0ff-white thay jse...)
+
+// Crick__ScoreBoard.js file ma 
+    (1) warning ave 6
+    (2) SetInterval set karvanu 6 logic  wrong 6 file ma!...
+    (3) Button change kari ne TeamInning Change kariye thyare Loading chalu karvanu 6
+
+//PlayerInfo.js file ma
+    (1) Tables no ave tya jagya fill karvi
+
+
+//ScoreBoard.js file ma match chalu no hoi to pn tables show thay 6....tya Alert Screen display karavi ne home page per Redirect karvu Mukvanu 6
+
+// Index.css
+ (1) patiya marya 6 meadia query ma bcz of Header.js ne fix karyu 6 soo content hide thay jay 6!...

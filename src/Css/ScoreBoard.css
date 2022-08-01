@@ -25,6 +25,12 @@
     font-weight: 700;
 }
 
+.match__finished {
+    /* color: rgb(241, 86, 86); */
+    color: #79589F;
+    font-weight: 700;
+}
+
 .match__title {
     font-size: small;
 }

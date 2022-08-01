@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Container, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import axios from 'axios';
-import { getApiKey } from '../getApiKey';
+import { getRapidApiKey } from '../getRapidApiKey';
+import "../../../Css/IccRankings.css"
 
 function IccRankings(props) {
 
@@ -13,7 +14,7 @@ function IccRankings(props) {
     const [refresh, setRefresh] = useState(false)
 
     const headers = {
-        'X-RapidAPI-Key': getApiKey(),
+        'X-RapidAPI-Key': getRapidApiKey(),
         'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
     }
 
@@ -54,10 +55,10 @@ function IccRankings(props) {
     }, [type, category, isWomen,refresh])
 
     return (
-        <div>
+        <div className='iccrankings'>
             <Container>
                 {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner'>
+                    <div className='Loader__Spinner'>
                         <Spinner animation="grow" variant="primary" />
                         <Spinner animation="grow" variant="secondary" />
                         <Spinner animation="grow" variant="success" />
@@ -68,7 +69,7 @@ function IccRankings(props) {
                     </div>
                 }
 
-                <h4 className='text-center mt-4'>Top Players</h4>
+                <h4 className='text-center'>Top Players</h4>
                 <hr />
 
                 <div className='mt-1 ranking__table d-flex text-end justify-content-end'>
@@ -102,7 +103,7 @@ function IccRankings(props) {
                             <th>Name</th>
                             <th>Country</th>
                             <th>Pts</th>
-                            <th>L Update</th>
+                            <th className='IccRankings__LastUpdateColumn'>L Update</th>
                             <th>Trend</th>
                         </tr>
                     </thead>
@@ -114,7 +115,7 @@ function IccRankings(props) {
                                     <td>{country.name}</td>
                                     <td>{country.country}</td>
                                     <td>{country.points}</td>
-                                    <td>{country.lastUpdatedOn}</td>
+                                    <td className='IccRankings__LastUpdateColumn'>{country.lastUpdatedOn}</td>
                                     <td>{country.trend}</td>
                                 </tr>
                             )

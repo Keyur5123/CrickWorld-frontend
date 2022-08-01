@@ -1,0 +1,60 @@
+.Player__Name {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: 20px;
+}
+
+.Player__CountryName {
+    color: #666;
+}
+
+.Player__personalInfo {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.playerInfo__devider {
+    border-top: 1px solid grey;
+    opacity: 0.20;
+    margin: 0.7rem 0rem;
+}
+
+p {
+    margin-bottom: 0rem !important;
+} 
+
+h4,h6 {
+    margin: 0rem !important;
+}
+
+@media all and (max-width:500px) {
+    .Player__Info__Header {
+        justify-content: center;
+    }
+
+    .Player__img {
+        padding-top: 7%;
+    }
+
+    .Player__Name, .PlayerFormate__LaptopRecords {
+        display: none;
+    }
+
+}
+
+@media all and (min-width:500px) {
+    .Player__Info__Header {
+        padding-top: 3%;
+        margin-left: 2%;
+        justify-content: start;
+        flex-direction: row;
+    }
+
+    .PlayerFormate__MobileRecords, #Player__Name, #Player__Country {
+        display: none;
+    }
+
+}

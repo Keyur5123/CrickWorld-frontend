@@ -1,0 +1,15 @@
+.iccrankings {
+    margin-top: 5rem;
+}
+
+hr {
+  border-top: 1px solid grey !important;
+  opacity: 0.20 !important;
+  margin: 0.5rem 0rem 1rem 0rem !important;
+}
+
+@media all and (max-width:500px){
+  .IccRankings__LastUpdateColumn{
+    display: none;
+  }
+}

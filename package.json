@@ -6,6 +6,9 @@
   "proxy": "http://cricpro.cricnet.co.in",
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.9.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",

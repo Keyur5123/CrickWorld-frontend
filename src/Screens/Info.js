@@ -3,7 +3,7 @@ import { Col, Row, Container, Spinner } from 'react-bootstrap';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import { useParams } from 'react-router-dom';
 import "../Css/Info.css";
-import { googleAnalytics } from '../googleAnalytics/utils';
+import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 
 function Info(props) {
 
@@ -29,7 +29,7 @@ function Info(props) {
                 <Match_Score_Sec_Header />
 
                 {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner'>
+                    <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
                         <Spinner animation="grow" variant="primary" />
                         <Spinner animation="grow" variant="secondary" />
                         <Spinner animation="grow" variant="success" />

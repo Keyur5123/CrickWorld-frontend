@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios"
 import { Alert, Card, Col, Container, Row, Spinner } from "react-bootstrap"
-import { getApiKey } from '../RapidApi/getApiKey';
-import { googleAnalytics } from '../googleAnalytics/utils';
+import { getRapidApiKey } from '../Utils/RapidApi/getRapidApiKey';
+import { googleAnalytics } from '../Utils/googleAnalytics/utils';
+import "../Css/News_Api.css"
 
 function Ipl_News(props) {
 
@@ -12,7 +13,7 @@ function Ipl_News(props) {
     const [isLoading, setIsLoading] = useState(true)
 
     const headers = {
-        'X-RapidAPI-Key': getApiKey(),
+        'X-RapidAPI-Key': getRapidApiKey(),
         'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
     }
 
@@ -92,10 +93,10 @@ function Ipl_News(props) {
         crossOrigin="anonymous" ></script>
 
     return (
-        <div>
+        <div className='Crickbuzz__News'>
             <Container>
                 {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner'>
+                    <div className='mx-auto News__spinner text-center spinner Loader__Spinner'>
                         <Spinner animation="grow" variant="primary" />
                         <Spinner animation="grow" variant="secondary" />
                         <Spinner animation="grow" variant="success" />
@@ -110,7 +111,7 @@ function Ipl_News(props) {
                         data.concat(newsByCategory[0], newsByCategory[1], newsByCategory[2], newsByCategory[3], newsByCategory[4], newsByCategory[5], newsByCategory[6], newsByCategory[7], ipl2022data[0], ipl2022data[1], ipl2022data[2], ipl2022data[3], ipl2022data[4])
                             .filter(news => news?.story)
                             .map((news, index) => (
-                                <Col xm={6} md={4} key={index}>
+                                <Col xm={6} md={6} lg={4} key={index}>
                                     <Card className='mt-2' style={{ backgroundColor: "#EEEEEE", borderBlock: "none" }}>
                                         <Card.Header style={{ backgroundColor: "#BC8CF2", marginLeft: "-1px" }} as="h5">{news.story?.hline}</Card.Header>
                                         <Card.Body>
