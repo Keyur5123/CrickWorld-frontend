@@ -11,7 +11,7 @@ function Crick_MatchSquad(props) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
-        await fetch('http://localhost:5000/crick__matchSquad', {
+        await fetch('https://apicricketlivescore.herokuapp.com/crick__matchSquad', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

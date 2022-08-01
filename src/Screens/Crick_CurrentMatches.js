@@ -16,16 +16,15 @@ function Crick_CurrentMatches(props) {
 
     useEffect(async () => {
 
-        await fetch('http://localhost:5000/crick__currentMatches')
+        await fetch('https://apicricketlivescore.herokuapp.com/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
                 setApiStatus(res?.status)
 
                 res?.data?.map((obj) => {
-                    // if (obj.date == Todays__Date) {
-                    //     setData(data => [...data, obj])
-                    // }
-                    setData(data => [...data, obj])
+                    if (obj.date == Todays__Date) {
+                        setData(data => [...data, obj])
+                    }
                 })
 
                 setIsLoading(false)

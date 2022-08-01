@@ -101,7 +101,7 @@ function Cric_ScoreBoard(props) {
 
     useEffect(async () => {
         
-        await fetch('http://localhost:5000/crick__ScoreBoard', {
+        await fetch('https://apicricketlivescore.herokuapp.com/crick__ScoreBoard', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
