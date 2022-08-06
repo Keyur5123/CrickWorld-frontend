@@ -11,7 +11,7 @@ function NewsApi() {
 
     useEffect(async () => {
 
-        await fetch('https://newsapi.org/v2/everything?q=cricket&page=2&apiKey=6b7ec074a4504f248afc6be98c4881d0')
+        await fetch('https://apicricketlivescore.herokuapp.com/cricket-news')
             .then(res => res.json())
             .then(res => {
                 const arr = res.articles.splice(random)
@@ -42,4 +42,4 @@ function NewsApi() {
     );
 }
 
-export default NewsApi;
+export default NewsApi; 
