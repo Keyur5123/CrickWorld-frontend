@@ -21,7 +21,7 @@ function NewsApi() {
     }, [])
 
     return (
-        <div>
+        <div className='Latest_News'>
             {news.length > 0 && <h4 className='NewsApi__Header' style={{ color: "#BC8CF2", fontWeight: "bold" }}>LATEST NEWS</h4>}
             {news && news.slice(0, visible).map((news,index) => (
                 <div key={index}>

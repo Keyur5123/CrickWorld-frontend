@@ -24,6 +24,12 @@
     }
 }
 
+@media all and (max-width:767px){
+    .Latest_News {
+        margin-top: 25px;
+    }
+}
+
 .NewsApi__Header{
     text-align: center;
     text-decoration: underline;
