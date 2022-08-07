@@ -8,7 +8,7 @@ const arrayBufferToBase64 = (buffer) => {
 export const getImages = async (TeamAImage, TeamBImage, matchId, setImg) => {
     const arr = []
 
-    await fetch(`http://localhost:5000/matches/get-images/${TeamAImage}/${TeamBImage}`, {
+    await fetch(`https://apicricketlivescore.herokuapp.com/matches/get-images/${TeamAImage}/${TeamBImage}`, {
         method: "POST",
     })
         .then(res => res.json())
@@ -24,14 +24,14 @@ export const getImages = async (TeamAImage, TeamBImage, matchId, setImg) => {
             arr.push({ matchId: matchId, TeamAurl: TeamAurl , TeamBurl: TeamBurl })
             setImg(img => [...img,arr ] )
         })
-        .catch(err => console.log(">>>>> ", err.message))
+        .catch(err => console.log(err?.message))
 }
 
 
 export const getUpcommingMatchesImages = async (TeamAImage, TeamBImage, setImg) => {
     const arr = []
 
-    await fetch(`http://localhost:5000/matches/get-images/${TeamAImage}/${TeamBImage}`, {
+    await fetch(`https://apicricketlivescore.herokuapp.com/matches/get-images/${TeamAImage}/${TeamBImage}`, {
         method: "POST",
     })
         .then(res => res.json())
@@ -47,5 +47,5 @@ export const getUpcommingMatchesImages = async (TeamAImage, TeamBImage, setImg) 
             arr.push({ TeamAImage, TeamBImage, TeamAurl: TeamAurl , TeamBurl: TeamBurl })
             setImg(img => [...img,arr ] )
         })
-        .catch(err => console.log(">>>>> ", err.message))
+        .catch(err => console.log(err?.message))
 }
