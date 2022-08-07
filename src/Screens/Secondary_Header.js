@@ -13,13 +13,13 @@ function Home(props) {
 
                     <Nav.Item>
                         <LinkContainer to="/">
-                            <Nav.Link eventKey="link-1" className="navLink__subHeader">Current Matches</Nav.Link>
+                            <Nav.Link eventKey="link-1" className="navLink__subHeader">Live</Nav.Link>
                         </LinkContainer>
                     </Nav.Item>
 
                     <Nav.Item>
                         <LinkContainer to="/matches/upcomming-matches">
-                            <Nav.Link eventKey="link-2" className="navLink__subHeader">Upcomming Matches</Nav.Link>
+                            <Nav.Link eventKey="link-2" className="navLink__subHeader">Upcoming</Nav.Link>
                         </LinkContainer>
                     </Nav.Item>
 

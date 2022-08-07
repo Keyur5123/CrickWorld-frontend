@@ -285,7 +285,7 @@ function Cric_ScoreBoard(props) {
                                                 </thead>
 
                                                 <tbody>
-                                                    {/* {bowlers && bowlers?.map((bowler, index) => (
+                                                    {bowlers && bowlers?.map((bowler, index) => (
                                                         <>
                                                             {index % 2 != 0 ?
                                                                 <tr className='pt-1 pb-1 align-items-center' key={index} style={{ backgroundColor: "whitesmoke" }}>
@@ -307,7 +307,7 @@ function Cric_ScoreBoard(props) {
                                                                 </tr>
                                                             }
                                                         </>
-                                                    ))} */}
+                                                    ))}
                                                 </tbody>
 
                                             </table>
