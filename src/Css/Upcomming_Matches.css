@@ -26,3 +26,8 @@
     border: 0px !important  ;
     border-radius: 0rem;
 }
+
+.image__loader {
+    margin-top: 5px;
+    margin-bottom: -15px;
+}

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { getMatchDateAndTime } from "../Utils/DateAndTimeFormatter/getMatchDateAndTime";
 
 function Crick_info({ data, isLoading }) {
-
     return (
         <div className='mt-5'>
             {

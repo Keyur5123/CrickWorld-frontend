@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from "./Screens/Header";
 import Upcomming_Matches from './Screens/Upcomming_Matches';
+import Recent_Matches from './Screens/Recent_Matches';
 import Cric_ScoreBoard from './Screens/Cric_ScoreBoard';
 import Rankings from './Screens/Rankings';
 import ContactUs from './Screens/ContactUs';
@@ -47,6 +48,7 @@ function App(props) {
             <Routes>
               {/* <Route path="/" exact element={<Current_Matches />} /> */}
               <Route path="/matches/upcomming-matches" element={<Upcomming_Matches />} />
+              <Route path="/matches/recent-matches" element={<Recent_Matches />} />
 
               <Route path="/match-score/profile/:id" element={<PlayerInfo />} />
 

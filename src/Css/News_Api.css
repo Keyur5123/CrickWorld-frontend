@@ -1,6 +1,7 @@
 .news__devider {
     border-top: 0.1px gray !important;
 }
+
 .news__title {
     margin-left: 10px !important;
     color: black;
@@ -13,24 +14,32 @@
 
 .NewsApi__RedirectLink :hover {
     text-decoration: underline;
-    color:black;
+    color: black;
 }
 
-@media all and (max-width:500px){
-    .NewsApi__Header{
+.news__loadMore__btn {
+    background-color: #AA14F0;
+    border-radius: 4px;
+    border: none;
+    margin: 0.5rem 0rem 1.5rem 0rem;
+    padding: 5px 10px;
+}
+
+@media all and (max-width:500px) {
+    .NewsApi__Header {
         text-align: center;
         text-decoration: underline;
         margin: 1.5rem 0rem 1.5rem 0rem !important;
     }
 }
 
-@media all and (max-width:767px){
+@media all and (max-width:767px) {
     .Latest_News {
         margin-top: 25px;
     }
 }
 
-.NewsApi__Header{
+.NewsApi__Header {
     text-align: center;
     text-decoration: underline;
     margin: 0rem 0rem 1rem 0rem !important;

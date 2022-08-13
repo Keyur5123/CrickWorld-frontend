@@ -197,7 +197,7 @@ function Match_Score() {
                                     <div>
                                         <h4 className='mb-1'>{teams}</h4>
                                         <p className={'match__title mb-2'}>{title}</p>
-                                        {(matchStatus && result) ? <h5 className='mb-5 mt-5 match__finished text-center'>Match Status :- {matchStatus}</h5> : <h5 className='mb-3 mt-2 match__result text-center'>Match Status :- {matchStatus}</h5> }
+                                        {(matchStatus && result) ? <h5 className='mb-5 mt-5 match__finished text-center'>Match Status :- {matchStatus}</h5> : (matchStatus && <h5 className='mb-3 mt-2 match__result text-center'>Match Status :- {matchStatus}</h5>) }
                                         {teamA.teamAScore && <h6 className='mt-1'>{teamA.teamAName} Score:- {teamA.teamAScore} ({teamA.teamAOver})</h6>}
                                         {firstInningScore.FirstInningScore && (<h6 className='mt-1'> {firstInningScore.FirstInningName} Score :- {firstInningScore.FirstInningScore} </h6>)}
                                         {teamB.teamBScore && <h6>{teamB.teamBName} Score :- {teamB.teamBScore} ({teamB.teamBOver})</h6>}

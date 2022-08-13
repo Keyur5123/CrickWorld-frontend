@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
-import Secondary_Header from "./Secondary_Header";
-import NewsApi from "./NewsApi";
-import { getTodaysDate } from "../Utils/DateAndTimeFormatter/getMatchDateAndTime";
-import Current_Matches from './Current_Matches';
+import { getTodaysDate } from '../Utils/DateAndTimeFormatter/getMatchDateAndTime';
 import Crick_CurrMatches_Card from "../Utils/Crick_CurrentMatches_Card/Crick_CurrMatches_Card";
+import NewsApi from './NewsApi';
+import Secondary_Header from "./Secondary_Header";
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 
-function Crick_CurrentMatches(props) {
+function Recent_Matches(props) {
 
-    const [data, setData] = useState([])
+    const [prevMatches, setPrevMatches] = useState([])
     const [apiStatus, setApiStatus] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [visible, setVisible] = useState(5);
 
     useEffect(async () => {
 
         await fetch('https://apicricketlivescore.herokuapp.com/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
-                setApiStatus(res?.status);
-
-                // setData(res?.data)
-
-                res?.data?.filter((match) => match?.date == getTodaysDate())
-                    .map((match_obj) => setData(data => [...data, match_obj]))
-
-                // res?.data?.map((obj) => {
-                //     if (obj?.date == getTodaysDate()) {
-                //         setData(data => [...data, obj])
-                //     }
-                // })
+                setApiStatus(res?.status)
+                res?.data?.map((obj) => {
+                    if (obj?.date != getTodaysDate()) {
+                        setPrevMatches(data => [...data, obj])
+                    }
+                })
 
                 setIsLoading(false)
             })
@@ -54,18 +46,10 @@ function Crick_CurrentMatches(props) {
 
                 <Row>
 
-                    {(apiStatus != 'failure' && data.length > 0) ?
-
+                    {(apiStatus != 'failure' && prevMatches.length > 0) &&
                         <Col xs={12} md={8}>
-                            <Crick_CurrMatches_Card matches={data} />
+                            <Crick_CurrMatches_Card matches={prevMatches} />
                         </Col>
-
-                        :
-
-                        <Col xs={12} md={8}>
-                            <Current_Matches />
-                        </Col>
-
                     }
 
                     <Col xm={12} md={4}>
@@ -78,4 +62,4 @@ function Crick_CurrentMatches(props) {
     );
 }
 
-export default Crick_CurrentMatches;
+export default Recent_Matches;

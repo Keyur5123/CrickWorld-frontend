@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
-import { Link, useParams, Navigate, Route, useNavigate } from 'react-router-dom';
+import { Link, useParams, Navigate, Route } from 'react-router-dom';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import "../Css/Crick_scoreBoard.css"
 import Crick_info from './Crick_info';
@@ -11,7 +11,6 @@ import AlertBox from '../Utils/AlertBox/AlertBox';
 function Cric_ScoreBoard(props) {
 
     const params = useParams();
-    const navigate = useNavigate();
 
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -19,7 +18,7 @@ function Cric_ScoreBoard(props) {
     const [score, setScore] = useState([])
     const [batsmans, setBatsmans] = useState([])
     const [bowlers, setBowlers] = useState([])
-    const [teamInning, setTeamInning] = useState(1)
+    const [teamInning, setTeamInning] = useState(0)
     const [teamScore, setTeamScore] = useState([])
     const [refresh, setRefresh] = useState(false)
 
@@ -27,10 +26,13 @@ function Cric_ScoreBoard(props) {
     const [show, setShow] = useState(false);
 
     const setPlayer = (data, currTeamData) => {
-        getBatsmans(data?.scorecard[currTeamData]?.batting)
-        getBowlers(data?.scorecard[currTeamData]?.bowling)
+        {
+            data?.scorecard &&
+                getBatsmans(data?.scorecard[currTeamData]?.batting)
+            getBowlers(data?.scorecard[currTeamData]?.bowling)
+            getCurrentTeamScore(data?.scorecard[currTeamData]?.totals)
+        }
         getExtra(data?.scorecard[currTeamData]?.extras)
-        getCurrentTeamScore(data?.scorecard[currTeamData]?.totals)
         setIsLoading(false)
     }
 
@@ -52,7 +54,7 @@ function Cric_ScoreBoard(props) {
 
     const getCurrentTeamScore = (score) => {
         const arr = []
-        arr.push({ over: score.O, run: score.R, wicket: score.W, runRate: score.RR })
+        arr.push({ over: score?.O, run: score?.R, wicket: score?.W, runRate: score?.RR })
         setScore(arr)
     }
 
@@ -100,7 +102,6 @@ function Cric_ScoreBoard(props) {
 
 
     useEffect(async () => {
-        
         await fetch('https://apicricketlivescore.herokuapp.com/crick__ScoreBoard', {
             method: "POST",
             headers: {
@@ -108,10 +109,10 @@ function Cric_ScoreBoard(props) {
             },
             body: JSON.stringify({ id: params.id })
         })
-        .then(res => res.json())
-        .then(res => {
-            if (res?.status != "failure") {
-                setIsLoading(true)
+            .then(res => res.json())
+            .then(res => {
+                if (res?.status != "failure") {
+                    setIsLoading(true)
                     setData(res)
                     setPlayer(res, teamInning)
                     setAllTeamsTotalScore(res?.score)
@@ -119,21 +120,21 @@ function Cric_ScoreBoard(props) {
                 }
                 else {
                     setIsLoading(false)
-                    setShow(true)
+                    setTimeout(()=>setShow(true),2000)
                 }
             })
             .catch(err => console.log(err))
 
-    }, [teamInning,refresh])
+    }, [teamInning, refresh, show])
 
-    useEffect(function () {
-        setInterval(() => { 
-            // if (apiStatus?.split(' ')[1] != "won" && apiStatus?.split(' ')[2] != "by") {
-                // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,>>>>>>");
-                setRefresh(current => !current);
-            // }
-        }, 3000);
-    }, []) 
+    // useEffect(function () {
+    //     setInterval(() => {
+    //         // if (apiStatus?.split(' ')[1] != "won" && apiStatus?.split(' ')[2] != "by") {
+    //         // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,>>>>>>");
+    //         setRefresh(current => !current);
+    //         // }
+    //     }, 3000);
+    // }, [])
 
     return (
         <div>
@@ -165,38 +166,45 @@ function Cric_ScoreBoard(props) {
                                             !isLoading &&
                                             <div>
                                                 <div className='mt-3'>
-                                                    {teamScore.length >= 2 &&
-                                                        <div className='d-flex Team__Score__Buttons'>
-                                                            <Row className='justify-content-center'>
-                                                                <Col xs={5} >
-                                                                    <button
-                                                                        onClick={() => setTeamInning(0)}
-                                                                        className={teamInning == 0 ? "SelectedTeam__Button" : 'UnSelectedTeam__Button'}
-                                                                    >
-                                                                        {getTeamAScore(teamScore[0])}
-                                                                    </button>
-                                                                </Col>
-                                                                <Col xs={5} >
-                                                                    <button
-                                                                        className={teamInning == 1 ? "SelectedTeam__Button" : 'UnSelectedTeam__Button'}
-                                                                        onClick={() => setTeamInning(1)}
-                                                                    >
-                                                                        {getTeamBScore(teamScore[1])}
-                                                                    </button>
-                                                                </Col>
-                                                            </Row>
 
-
-
-
-                                                        </div>
-                                                    }
+                                                    <div className='d-flex Team__Score__Buttons'>
+                                                        <Row className='justify-content-center'>
+                                                            {teamScore.length >= 2 &&
+                                                                <>
+                                                                    <Col xs={5} >
+                                                                        <button
+                                                                            onClick={() => setTeamInning(0)}
+                                                                            className={teamInning == 0 ? "SelectedTeam__Button" : 'UnSelectedTeam__Button'}
+                                                                        >
+                                                                            {getTeamAScore(teamScore[0])}
+                                                                        </button>
+                                                                    </Col>
+                                                                    <Col xs={5} >
+                                                                        <button
+                                                                            className={teamInning == 1 ? "SelectedTeam__Button" : 'UnSelectedTeam__Button'}
+                                                                            onClick={() => setTeamInning(1)}
+                                                                        >
+                                                                            {getTeamBScore(teamScore[1])}
+                                                                        </button>
+                                                                    </Col>
+                                                                </>
+                                                            }
+                                                        </Row>
+                                                    </div>
+                                                    <div className='d-flex justify-content-end'>
+                                                        <button
+                                                        className='UnSelectedTeam__Button'
+                                                            onClick={() => setRefresh(!refresh)}
+                                                        >
+                                                            Refresh
+                                                        </button>
+                                                    </div>
 
                                                     {teamScore.length > 0 ?? <h6>{getTeamAScore(teamScore[0][0])}</h6>}
 
                                                 </div>
 
-                                                <table className='mt-4' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
+                                                {batsmans.length > 0 && <table className='mt-4' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                                                     <thead>
                                                         <tr style={{ backgroundColor: "#BC8CF2" }}>
                                                             <th>Batsmen</th>
@@ -246,7 +254,7 @@ function Cric_ScoreBoard(props) {
                                                         })}
 
                                                     </tbody>
-                                                </table>
+                                                </table>}
 
                                             </div>
                                         }
@@ -271,7 +279,7 @@ function Cric_ScoreBoard(props) {
                                     <div className='mt-3 mb-3'>
 
                                         {
-                                            !isLoading &&
+                                            !isLoading && bowlers.length > 0 &&
                                             <table className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                                                 <thead>
                                                     <tr style={{ backgroundColor: "#BC8CF2" }}>

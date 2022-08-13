@@ -5,12 +5,15 @@ import "../Css/Upcomming_Matches.css";
 import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 import { getUpcommingMatchesImages } from '../Utils/ImagesFromBuffer/getImagesFromBuffer';
 import NewsApi from './NewsApi';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Upcomming_Matches(props) {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(5);
     const [isLoading, setIsLoading] = useState(true);
     const [img, setImg] = useState([]);
+    const [imgLoadedForTeamA, setImgLoadedForTeamA] = useState(false);
+    const [imgLoadedForTeamB, setImgLoadedForTeamB] = useState(false);
 
     let curr_month;
     const date = new Date();
@@ -31,15 +34,22 @@ function Upcomming_Matches(props) {
                 setIsLoading(false)
 
                 for (let i = 0; i < temp.length; i++) {
-                    if(temp[i].Matchtime.split(' at ')[0].split('-')[1] == curr_month){
-                        // setData1(data1 => [...data1 , temp[i]])
-                    }
+                    // if(temp[i].Matchtime.split(' at ')[0].split('-')[1] == curr_month){
+                    //     setData1(data1 => [...data1 , temp[i]])
+                    // }
                     getUpcommingMatchesImages(temp[i].TeamAImage, temp[i].TeamBImage, setImg)
                 }
             })
             .catch(err => console.log(err))
 
     }, []);
+
+    const isImageLoadedForTeamA = () => {
+        setImgLoadedForTeamA(true)
+    }
+    const isImageLoadedForTeamB = () => {
+        setImgLoadedForTeamB(true)
+    }
 
     return (
         <div className='UpcommingMatch'>
@@ -83,7 +93,8 @@ function Upcomming_Matches(props) {
                                                         <Row>
                                                             <Col xs={5}>
                                                                 <div className='d-flex-end align-items-center text-center'>
-                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={TeamAImage} alt={obj.TeamAImage} />
+                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={TeamAImage} onLoad={isImageLoadedForTeamA} alt={imgLoadedForTeamB === true ? 'Image' : ''} />
+                                                                    {!imgLoadedForTeamA && <CircularProgress className='image__loader' />}
                                                                     <Card.Title>{obj.TeamA}</Card.Title>
                                                                 </div>
                                                             </Col>
@@ -94,7 +105,8 @@ function Upcomming_Matches(props) {
                                                             </Col>
                                                             <Col xs={5}>
                                                                 <div className='d-flex-center align-items-center text-center'>
-                                                                    <img variant="top" className='mb-1 UpcommingMatch__team2__img' height="60px" src={TeamBImage} alt={obj.TeamBImage} />
+                                                                    <img className='mb-1 UpcommingMatch__team1__img' variant="top" height="60px" src={TeamBImage} onLoad={isImageLoadedForTeamB} alt={imgLoadedForTeamB === true ? 'Image' : ''} />
+                                                                    {!imgLoadedForTeamB && <CircularProgress className='image__loader' />}
                                                                     <Card.Title>{obj.TeamB}</Card.Title>
                                                                 </div>
                                                             </Col>

@@ -12,7 +12,7 @@ function Player__FormateRecords({ playerInfo, Category }) {
     useEffect(() => {
 
         playerInfo?.stats?.map((obj) => {
-            
+
             if (obj?.matchtype == "test") {
                 setTest(test => [...test, obj])
             }

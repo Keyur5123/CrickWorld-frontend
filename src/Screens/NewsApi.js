@@ -35,7 +35,7 @@ function NewsApi() {
 
             <div className='d-flex justify-content-center'>
                 {visible < news.length && (
-                    <button className='loadMore__btn1 d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More News</button>
+                    <button className='news__loadMore__btn d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More News</button>
                 )}
             </div>
         </div>
