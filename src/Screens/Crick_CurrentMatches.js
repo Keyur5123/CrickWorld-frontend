@@ -5,6 +5,7 @@ import NewsApi from "./NewsApi";
 import { getTodaysDate } from "../Utils/DateAndTimeFormatter/getMatchDateAndTime";
 import Current_Matches from './Current_Matches';
 import Crick_CurrMatches_Card from "../Utils/Crick_CurrentMatches_Card/Crick_CurrMatches_Card";
+import Loader from "../Utils/Loader"
 
 function Crick_CurrentMatches(props) {
 
@@ -15,13 +16,10 @@ function Crick_CurrentMatches(props) {
 
     useEffect(async () => {
 
-        await fetch('https://apicricketlivescore.herokuapp.com/crick__currentMatches')
+        await fetch('http://localhost:5000/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
                 setApiStatus(res?.status);
-
-                // setData(res?.data)
-
                 res?.data?.filter((match) => match?.date == getTodaysDate())
                     .map((match_obj) => setData(data => [...data, match_obj]))
 
@@ -40,17 +38,7 @@ function Crick_CurrentMatches(props) {
         <div>
             <Secondary_Header />
             <Container>
-                {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+                { isLoading && <Loader isLoading={isLoading}/> }
 
                 <Row>
 

@@ -5,6 +5,7 @@ import "../Css/PlayerInfo.css"
 import PlayerFormate__LaptopRecords from '../DeviceSizeScereens/Laptop_PlayerProfileScreen/PlayerFormate__LaptopRecords';
 import PlayerFormate__MobileRecords from '../DeviceSizeScereens/Laptop_PlayerProfileScreen/Mobile_PlayerProfileScreen.js/PlayerFormate__MobileRecords';
 import Alert from "../Utils/AlertBox/AlertBox"
+import Loader from '../Utils/Loader';
 
 function PlayerInfo(props) {
 
@@ -16,7 +17,7 @@ function PlayerInfo(props) {
     const [reset, SetReset] = useState(false);
 
     useEffect(async () => {
-        await fetch('https://apicricketlivescore.herokuapp.com/player-info', {
+        await fetch('http://localhost:5000/player-info', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -40,17 +41,8 @@ function PlayerInfo(props) {
 
     return (
         <>
-            {isLoading &&
-                <div className='Loader__Spinner'>
-                    <Spinner animation="grow" variant="primary" />
-                    <Spinner animation="grow" variant="secondary" />
-                    <Spinner animation="grow" variant="success" />
-                    <Spinner animation="grow" variant="danger" />
-                    <Spinner animation="grow" variant="warning" />
-                    <Spinner animation="grow" variant="info" />
-                    <Spinner animation="grow" variant="dark" />
-                </div>
-            }
+            {isLoading && <Loader isLoading={isLoading} />}
+
             {!response ?
                 <Container>
                     <div className='mt-5 mb-2'>

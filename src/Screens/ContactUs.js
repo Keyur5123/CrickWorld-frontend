@@ -26,7 +26,7 @@ function Ipl_Teams(props) {
 
             const { name, email, suggestions } = contact
 
-            const res = await fetch('https://apicricketlivescore.herokuapp.com/contactUs', {
+            const res = await fetch('http://localhost:5000/contactUs', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

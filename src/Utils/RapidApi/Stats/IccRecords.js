@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { getRapidApiKey } from '../getRapidApiKey';
 import { Alert, Container, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import Loader from '../../Loader';
 
 function IccRecords(props) {
 
@@ -77,7 +78,7 @@ function IccRecords(props) {
         })
     }
 
-    useEffect(async() => {
+    useEffect(async () => {
         await fetchRecordsFromApi();  // get-recordFilters
 
         setTimeout(() => {
@@ -86,10 +87,10 @@ function IccRecords(props) {
                 setRefresh(!refresh)
             }
         }, 3000)
-    },[])
+    }, [])
 
     useEffect(() => {
-        
+
         fetchDataFromApi();    // get-records
 
         setTimeout(() => {
@@ -104,17 +105,7 @@ function IccRecords(props) {
     return (
         <div>
             <Container>
-                {isLoading &&
-                    <div className='mt-5 text-center'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+                {isLoading && <Loader isLoading={isLoading} />}
 
                 <h4 className='text-center mt-5'>Top Records</h4>
                 <hr />
@@ -140,7 +131,7 @@ function IccRecords(props) {
                 <table cellSpacing="0" className='mt-4 mb-3 Record_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                     <thead>
                         <tr style={{ backgroundColor: "#BC8CF2" }}>
-                        <th>No</th>
+                            <th>No</th>
                             {tableHeaders && tableHeaders?.map((value, index) => {
                                 return <th key={index}>{value}</th>
                             })}
@@ -149,7 +140,7 @@ function IccRecords(props) {
                     <tbody>
                         {playerData && playerData?.slice(0, visible).map((obj, index) => (
                             <tr key={index}>
-                                <td>{index+1}</td>
+                                <td>{index + 1}</td>
                                 <td>{obj.values[1]}</td>
                                 <td>{obj.values[2]}</td>
                                 <td>{obj.values[3]}</td>

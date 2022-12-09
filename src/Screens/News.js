@@ -4,6 +4,7 @@ import { Alert, Card, Col, Container, Row, Spinner } from "react-bootstrap"
 import { getRapidApiKey } from '../Utils/RapidApi/getRapidApiKey';
 import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 import "../Css/News_Api.css"
+import Loader from '../Utils/Loader';
 
 function Ipl_News(props) {
 
@@ -95,17 +96,7 @@ function Ipl_News(props) {
     return (
         <div className='Crickbuzz__News'>
             <Container>
-                {isLoading &&
-                    <div className='mx-auto News__spinner text-center spinner Loader__Spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+                {isLoading && <Loader isLoading={isLoading} />}
                 <Row>
                     {data && newsByCategory &&
                         data.concat(newsByCategory[0], newsByCategory[1], newsByCategory[2], newsByCategory[3], newsByCategory[4], newsByCategory[5], newsByCategory[6], newsByCategory[7], ipl2022data[0], ipl2022data[1], ipl2022data[2], ipl2022data[3], ipl2022data[4])

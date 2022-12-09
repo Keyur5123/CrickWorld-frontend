@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Container, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router';
+import Loader from '../Utils/Loader';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 
 function Crick_MatchSquad(props) {
@@ -11,7 +12,7 @@ function Crick_MatchSquad(props) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
-        await fetch('https://apicricketlivescore.herokuapp.com/crick__matchSquad', {
+        await fetch('http://localhost:5000/crick__matchSquad', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -31,17 +32,7 @@ function Crick_MatchSquad(props) {
             <Match_Score_Sec_Header />
 
             <Container>
-                {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+            { isLoading && <Loader isLoading={isLoading}/> }
 
                 {(!isLoading && squads?.data) ? squads?.data?.map((obj, index) => (
                     <div className='mt-3' key={index}>

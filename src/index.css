@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+.App {
+  min-height: 93vh;
+}
+
 @media only screen and (max-width: 500px) {
   .Privacy__Policy {
     margin-top: 19%;

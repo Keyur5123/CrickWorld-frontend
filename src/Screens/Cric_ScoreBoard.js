@@ -6,6 +6,7 @@ import "../Css/Crick_scoreBoard.css"
 import Crick_info from './Crick_info';
 import NewsApi from './NewsApi';
 import AlertBox from '../Utils/AlertBox/AlertBox';
+import Loader from '../Utils/Loader';
 // import { styled } from '@material-ui/styles';
 
 function Cric_ScoreBoard(props) {
@@ -102,7 +103,7 @@ function Cric_ScoreBoard(props) {
 
 
     useEffect(async () => {
-        await fetch('https://apicricketlivescore.herokuapp.com/crick__ScoreBoard', {
+        await fetch('http://localhost:5000/crick__ScoreBoard', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -120,7 +121,7 @@ function Cric_ScoreBoard(props) {
                 }
                 else {
                     setIsLoading(false)
-                    setTimeout(()=>setShow(true),2000)
+                    setTimeout(() => setShow(true), 2000)
                 }
             })
             .catch(err => console.log(err))
@@ -141,17 +142,8 @@ function Cric_ScoreBoard(props) {
             <Match_Score_Sec_Header />
             {apiStatus != 'failure' ? <div>
                 <Container>
-                    {isLoading &&
-                        <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                            <Spinner animation="grow" variant="primary" />
-                            <Spinner animation="grow" variant="secondary" />
-                            <Spinner animation="grow" variant="success" />
-                            <Spinner animation="grow" variant="danger" />
-                            <Spinner animation="grow" variant="warning" />
-                            <Spinner animation="grow" variant="info" />
-                            <Spinner animation="grow" variant="dark" />
-                        </div>
-                    }
+                    {isLoading && <Loader isLoading={isLoading} />}
+                    
                     <Row>
                         <Col xm={12} md={8} className="p-0">
                             {(data && data?.status != 'failure') ?
@@ -191,10 +183,10 @@ function Cric_ScoreBoard(props) {
                                                             }
                                                         </Row>
                                                     </div>
-                                                    <div className='d-flex justify-content-end'>
+                                                    <div className='d-flex justify-content-end mt-2'>
                                                         <button
-                                                        className='UnSelectedTeam__Button'
-                                                            onClick={() => setRefresh(!refresh)}
+                                                            className='UnSelectedTeam__Button'
+                                                            onClick={() => setRefresh(refresh => !refresh)}
                                                         >
                                                             Refresh
                                                         </button>

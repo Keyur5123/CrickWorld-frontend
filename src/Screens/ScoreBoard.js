@@ -5,6 +5,7 @@ import "../Css/ScoreBoard.css";
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import { googleAnalyticsForScoreBoard } from '../Utils/googleAnalytics/utils';
 import NewsApi from './NewsApi';
+import Loader from '../Utils/Loader';
 
 function Match_Score() {
     const params = useParams();
@@ -43,7 +44,7 @@ function Match_Score() {
 
     useEffect(async () => {
 
-        await fetch('https://apicricketlivescore.herokuapp.com/match-score/')
+        await fetch('http://localhost:5000/match-score/')
             .then(res => res.json())
             .then(res => {
                 res.map((match) => {
@@ -59,7 +60,7 @@ function Match_Score() {
 
 
         setInterval(async () => {
-            await fetch('https://apicricketlivescore.herokuapp.com/match-score/')
+            await fetch('http://localhost:5000/match-score/')
                 .then(res => res.json())
                 .then(res => {
                     res.map((match) => {
@@ -178,17 +179,9 @@ function Match_Score() {
             <Match_Score_Sec_Header />
             <div className='mt-3'>
                 <Container>
-                    {isLoading &&
-                        <div className='mx-auto text-center mt-5 spinner'>
-                            <Spinner animation="grow" variant="primary" />
-                            <Spinner animation="grow" variant="secondary" />
-                            <Spinner animation="grow" variant="success" />
-                            <Spinner animation="grow" variant="danger" />
-                            <Spinner animation="grow" variant="warning" />
-                            <Spinner animation="grow" variant="info" />
-                            <Spinner animation="grow" variant="dark" />
-                        </div>
-                    }
+                    
+                { isLoading && <Loader isLoading={isLoading}/> }
+
                     <Row>
                         <Col xm={12} md={8} className="p-0">
                             <div>

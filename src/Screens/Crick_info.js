@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getMatchDateAndTime } from "../Utils/DateAndTimeFormatter/getMatchDateAndTime";
+import Loader from '../Utils/Loader';
 
 function Crick_info({ data, isLoading }) {
     return (
         <div className='mt-5'>
+            { isLoading && <Loader isLoading={isLoading}/> }
+            
             {
                 !isLoading &&
                 <table className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>

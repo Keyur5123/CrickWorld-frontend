@@ -4,6 +4,7 @@ import Crick_CurrMatches_Card from "../Utils/Crick_CurrentMatches_Card/Crick_Cur
 import NewsApi from './NewsApi';
 import Secondary_Header from "./Secondary_Header";
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import Loader from '../Utils/Loader';
 
 function Recent_Matches(props) {
 
@@ -13,7 +14,7 @@ function Recent_Matches(props) {
 
     useEffect(async () => {
 
-        await fetch('https://apicricketlivescore.herokuapp.com/crick__currentMatches')
+        await fetch('http://localhost:5000/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
                 setApiStatus(res?.status)
@@ -32,17 +33,8 @@ function Recent_Matches(props) {
         <div>
             <Secondary_Header />
             <Container>
-                {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+
+                {isLoading && <Loader isLoading={isLoading} />}
 
                 <Row>
 

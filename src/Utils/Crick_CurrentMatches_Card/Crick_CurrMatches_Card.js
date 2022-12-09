@@ -24,7 +24,6 @@ function Crick_CurrMatches_Card({ matches }) {
             {matches &&
                 matches.slice(0, visible)
                     .map((obj, index) => (
-                        // {console.log("dfsfsfsfdsf -> ",obj?.teamInfo)}
                         <div key={index}>
                             <Box bgcolor={"background.default"} color={"text.primary"}>
                                 <Link to={`/match-score/${obj?.id}`} className='text-decoration-none text-muted'>

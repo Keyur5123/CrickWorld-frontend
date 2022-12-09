@@ -4,6 +4,7 @@ import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 import { useParams } from 'react-router-dom';
 import "../Css/Info.css";
 import { googleAnalytics } from '../Utils/googleAnalytics/utils';
+import Loader from '../Utils/Loader';
 
 function Info(props) {
 
@@ -15,7 +16,7 @@ function Info(props) {
 
         googleAnalytics()
 
-        await fetch('https://apicricketlivescore.herokuapp.com/Info')
+        await fetch('http://localhost:5000/Info')
             .then(res => res.json())
             .then(res => {
                 setAllMatchData(res)
@@ -28,17 +29,7 @@ function Info(props) {
             <div>
                 <Match_Score_Sec_Header />
 
-                {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+                {isLoading && <Loader isLoading={isLoading} />}
 
                 {allMatchData && allMatchData.filter((obj) => {
                     return obj.MatchId == params.id
@@ -72,7 +63,7 @@ function Info(props) {
                                         <p className='info__title'>Venue :- </p>
                                         <p className='Info__Match'>{obj.venue}</p>
                                     </div>
-                                   
+
                                 </div>
                             </Col>
                         </Row>

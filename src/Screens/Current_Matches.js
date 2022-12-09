@@ -6,17 +6,18 @@ import { Link } from 'react-router-dom';
 import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 import { getImages } from '../Utils/ImagesFromBuffer/getImagesFromBuffer';
 import NewsApi from "./NewsApi";
+import Loader from '../Utils/Loader';
 
 function Current_Matches() {
     const [data1, setData1] = useState([]);
     const [img, setImg] = useState([]);
-    // const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(async () => {
 
         googleAnalytics()
 
-        await fetch('https://apicricketlivescore.herokuapp.com/matches/current-matches')
+        await fetch('http://localhost:5000/matches/current-matches')
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);
@@ -24,6 +25,7 @@ function Current_Matches() {
                 for (let i = 0; i < temp.length; i++) {
                     getImages(temp[i].TeamAImage, temp[i].TeamBImage, temp[i].MatchId, setImg)
                 }
+                setIsLoading(false)
             })
             .catch(err => console.log(err))
     }, []);
@@ -45,50 +47,10 @@ function Current_Matches() {
         return str ? str.split(' ')[0] + " : " + str.split(' ')[2].split('-')[0] : ''
     }
 
-
-
-    // const arrayBufferToBase64 = (buffer) => {
-    //     var binary = '';
-    //     var bytes = [].slice.call(new Uint8Array(buffer));
-    //     bytes.forEach((b) => binary += String.fromCharCode(b));
-    //     return window.btoa(binary);
-    // }
-
-    // const getImages = async (TeamAImage, TeamBImage, matchId, setImg) => {
-    //     const arr = []
-
-    //     await fetch(`http://localhost:5000/matches/get-images/${TeamAImage}/${TeamBImage}`, {
-    //         method: "POST",
-    //     })
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             var base64Flag = 'data:image;base64,';
-
-    //             var imageAStr = arrayBufferToBase64(res.TeamAImage.data);
-    //             var TeamAurl = base64Flag + imageAStr
-
-    //             var imageBStr = arrayBufferToBase64(res.TeamBImage.data);
-    //             var TeamBurl = base64Flag + imageBStr
-
-    //             arr.push({ matchId: matchId, TeamAurl: TeamAurl , TeamBurl: TeamBurl })
-    //             setImg(img => [...img,arr ] )
-    //         })
-    //         .catch(err => console.log(">>>>> ", err.message))
-    // }
-
     return (
         <div className='CurrentMatch'>
-            {/* {isLoading &&
-                <div className='mx-auto text-center mt-5 spinner Loader__Spinner'>
-                    <Spinner animation="grow" variant="primary" />
-                    <Spinner animation="grow" variant="secondary" />
-                    <Spinner animation="grow" variant="success" />
-                    <Spinner animation="grow" variant="danger" />
-                    <Spinner animation="grow" variant="warning" />
-                    <Spinner animation="grow" variant="info" />
-                    <Spinner animation="grow" variant="dark" />
-                </div>
-            } */}
+            { isLoading && <Loader isLoading={isLoading}/> }
+            
             <div className='justify-items-center'>
                 {data1 &&
                     data1

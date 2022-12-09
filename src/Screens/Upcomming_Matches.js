@@ -6,6 +6,7 @@ import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 import { getUpcommingMatchesImages } from '../Utils/ImagesFromBuffer/getImagesFromBuffer';
 import NewsApi from './NewsApi';
 import CircularProgress from '@mui/material/CircularProgress';
+import Loader from "../Utils/Loader"
 
 function Upcomming_Matches(props) {
     const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ function Upcomming_Matches(props) {
 
         googleAnalytics()
 
-        await fetch('https://apicricketlivescore.herokuapp.com/matches/upcomming-matches')
+        await fetch('http://localhost:5000/matches/upcomming-matches')
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res.AllMatch).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);
@@ -55,17 +56,9 @@ function Upcomming_Matches(props) {
         <div className='UpcommingMatch'>
             <Secondary_Header />
             <Container>
-                {isLoading &&
-                    <div className='mx-auto text-center mt-5 spinner'>
-                        <Spinner animation="grow" variant="primary" />
-                        <Spinner animation="grow" variant="secondary" />
-                        <Spinner animation="grow" variant="success" />
-                        <Spinner animation="grow" variant="danger" />
-                        <Spinner animation="grow" variant="warning" />
-                        <Spinner animation="grow" variant="info" />
-                        <Spinner animation="grow" variant="dark" />
-                    </div>
-                }
+
+                {isLoading && <Loader isLoading={isLoading} />}
+
                 <Row>
                     <Col xs={12} md={8}>
                         <div className='justify-items-center'>
