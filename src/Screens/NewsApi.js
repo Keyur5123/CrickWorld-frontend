@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "../Css/News_Api.css"
 
-function NewsApi() {
+function NewsApi({ clicks,setClicks }) {
 
     const [news, setNews] = useState([]);
     const [visible, setVisible] = useState(5);
@@ -11,7 +11,7 @@ function NewsApi() {
 
     useEffect(async () => {
 
-        // await fetch('http://localhost:5000/cricket-news')
+        // await fetch('https://crickworld-backend51234.onrender.com/cricket-news')
         //     .then(res => res.json())
         //     .then(res => {
         //         const arr = res?.articles?.splice(random)
@@ -22,7 +22,8 @@ function NewsApi() {
         await fetch('https://saurav.tech/NewsAPI/top-headlines/category/sports/in.json')
             .then(res => res.json())
             .then(res => {
-                setNews(res.articles);
+                const arr = res?.articles?.splice(random)
+                setNews(arr);
             })
             .catch(err => console.log(err))
     }, [])
@@ -34,18 +35,20 @@ function NewsApi() {
                 <div key={index}>
                     <div className='d-flex '>
                         <img src={news?.urlToImage} alt={news?.source?.name && 'news image'} height="90px" className="rounded" />
-                        {/* <a className='NewsApi__RedirectLink' target="/blank" href={news?.url}> */}
+                        <a className='NewsApi__RedirectLink' target="/blank" href={news?.url} title="News Content">
                             <h6 className='news__title'>{news?.title}</h6>
-                        {/* </a> */}
+                        </a>
                     </div>
                     <hr className='news__devider' />
                 </div>
             ))}
 
             <div className='d-flex justify-content-center'>
-                {visible < news?.length && (
-                    <button className='news__loadMore__btn d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More News</button>
-                )}
+                {visible < news?.length && clicks % 4 == 0 ? 
+                    <a className='text-decoration-none' href="https://blogvioforyou.netlify.app/blog-post.html" target="_blank" title="Blog Site"><button className='news__loadMore__btn d-flex justify-content-center' onClick={() => { setVisible(visible + 5); setClicks(clicks+1 ) }}>Load More News{clicks}</button></a>
+                    :
+                    visible < news?.length && <button className='news__loadMore__btn d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More News</button>
+                }
             </div>
         </div>
     );

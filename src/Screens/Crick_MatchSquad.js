@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import Loader from '../Utils/Loader';
 import Match_Score_Sec_Header from './Match_Score_Sec_Header';
 
-function Crick_MatchSquad(props) {
+function Crick_MatchSquad() {
 
     const params = useParams()
 
@@ -12,7 +12,8 @@ function Crick_MatchSquad(props) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
-        await fetch('http://localhost:5000/crick__matchSquad', {
+
+        await fetch('https://crickworld-backend51234.onrender.com/crick__matchSquad', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

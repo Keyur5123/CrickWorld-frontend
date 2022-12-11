@@ -17,7 +17,7 @@ function Current_Matches() {
 
         googleAnalytics()
 
-        await fetch('http://localhost:5000/matches/current-matches')
+        await fetch('https://crickworld-backend51234.onrender.com/matches/current-matches')
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);

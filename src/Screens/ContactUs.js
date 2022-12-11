@@ -4,7 +4,7 @@ import "../Css/ContactUs.css";
 import contactUs__Banner from "../Utils/Images/contactUs__Banner.jpg";
 import { googleAnalytics } from '../Utils/googleAnalytics/utils';
 
-function Ipl_Teams(props) {
+function Ipl_Teams() {
 
     const [contact, setContact] = useState({ name: '', email: '', suggestions: '' })
     const [isResponseSave, setIsResponseSave] = useState('')
@@ -26,7 +26,7 @@ function Ipl_Teams(props) {
 
             const { name, email, suggestions } = contact
 
-            const res = await fetch('http://localhost:5000/contactUs', {
+            const res = await fetch('https://crickworld-backend51234.onrender.com/contactUs', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

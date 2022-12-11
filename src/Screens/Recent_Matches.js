@@ -11,10 +11,11 @@ function Recent_Matches(props) {
     const [prevMatches, setPrevMatches] = useState([])
     const [apiStatus, setApiStatus] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [recentClicks, setRecentClicks] = useState(0)
 
     useEffect(async () => {
-
-        await fetch('http://localhost:5000/crick__currentMatches')
+        
+        await fetch('https://crickworld-backend51234.onrender.com/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
                 setApiStatus(res?.status)
@@ -38,14 +39,14 @@ function Recent_Matches(props) {
 
                 <Row>
 
-                    {(apiStatus != 'failure' && prevMatches.length > 0) &&
+                    {(apiStatus != 'failure') && 
                         <Col xs={12} md={8}>
                             <Crick_CurrMatches_Card matches={prevMatches} />
                         </Col>
                     }
 
                     <Col xm={12} md={4}>
-                        <NewsApi />
+                        <NewsApi setClicks={setRecentClicks} clicks={recentClicks} />
                     </Col>
 
                 </Row>

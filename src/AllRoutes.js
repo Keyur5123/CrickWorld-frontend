@@ -14,7 +14,7 @@ import Crick_CurrentMatches from './Screens/Crick_CurrentMatches';
 
 import { Route, Routes } from 'react-router-dom';
 
-function AllRoutes(props) {
+function AllRoutes() {
     return (
         <Routes>
             {/* <Route path="/" exact element={<Current_Matches />} /> */}

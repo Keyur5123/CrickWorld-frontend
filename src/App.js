@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes } from 'react-router-dom';
 import Header from "./Screens/Header";
 import Footer from "./Screens/Footer.js"
 import { Helmet } from "react-helmet";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { Box } from '@mui/system';
 import AllRoutes from './AllRoutes';
+import { Navigate, Route } from "react-router-dom";
 
 function App(props) {
 
   const [mode, setMode] = useState("light")    // dark for dark mode and light for light mode...
-
+ 
   const darkTheme = createTheme({
     palette: {
       mode: mode,
     },
   });
+
+  // let navigate = useNavigate();
+
+  // const routeChange = () =>{ 
+  //   let path = 'http://blogvioforyou.netlify.app'; 
+  //   navigate(path);
+  // }
+
+  
+  // useEffect(()=> {
+    
+  //   routeChange()
+  // },[clicks])
 
   return (
     <div>

@@ -8,7 +8,7 @@ const arrayBufferToBase64 = (buffer) => {
 export const getImages = async (TeamAImage, TeamBImage, matchId, setImg) => {
     const arr = []
 
-    await fetch(`http://localhost:5000/matches/get-images/${TeamAImage}/${TeamBImage}`, {
+    await fetch(`https://crickworld-backend51234.onrender.com/matches/get-images/${TeamAImage}/${TeamBImage}`, {
         method: "POST",
     })
         .then(res => res.json())
@@ -30,7 +30,7 @@ export const getImages = async (TeamAImage, TeamBImage, matchId, setImg) => {
 export const getUpcommingMatchesImages = async (TeamAImage, TeamBImage, setImg) => {
     const arr = []
 
-    await fetch(`http://localhost:5000/matches/get-images/${TeamAImage}/${TeamBImage}`, {
+    await fetch(`https://crickworld-backend51234.onrender.com/matches/get-images/${TeamAImage}/${TeamBImage}`, {
         method: "POST",
     })
         .then(res => res.json())

@@ -3,12 +3,11 @@ import { getMatchDateAndTime } from "../Utils/DateAndTimeFormatter/getMatchDateA
 import Loader from '../Utils/Loader';
 
 function Crick_info({ data, isLoading }) {
+
     return (
         <div className='mt-5'>
             { isLoading && <Loader isLoading={isLoading}/> }
             
-            {
-                !isLoading &&
                 <table className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                     <thead>
                         <tr style={{ backgroundColor: "#BC8CF2" }}>
@@ -62,7 +61,6 @@ function Crick_info({ data, isLoading }) {
                     </tbody>
 
                 </table>
-            }
         </div>
     );
 }

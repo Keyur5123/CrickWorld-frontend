@@ -44,7 +44,7 @@ function Match_Score() {
 
     useEffect(async () => {
 
-        await fetch('http://localhost:5000/match-score/')
+        await fetch('https://crickworld-backend51234.onrender.com/match-score/')
             .then(res => res.json())
             .then(res => {
                 res.map((match) => {
@@ -60,7 +60,7 @@ function Match_Score() {
 
 
         setInterval(async () => {
-            await fetch('http://localhost:5000/match-score/')
+            await fetch('https://crickworld-backend51234.onrender.com/match-score/')
                 .then(res => res.json())
                 .then(res => {
                     res.map((match) => {

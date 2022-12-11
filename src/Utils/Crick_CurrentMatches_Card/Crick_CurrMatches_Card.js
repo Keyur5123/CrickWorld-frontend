@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getMatchDateAndTime } from "../DateAndTimeFormatter/getMatchDateAndTime";
 import "../Crick_CurrentMatches_Card/Crick_CurrMatches_Card.css"
 
-function Crick_CurrMatches_Card({ matches }) {
+function Crick_CurrMatches_Card({ matches, clicks }) {
 
     const [visible, setVisible] = useState(5);
     const [imgLoadedForTeamA, setImgLoadedForTeamA] = useState(false);
@@ -65,7 +65,21 @@ function Crick_CurrMatches_Card({ matches }) {
 
             <div className='d-flex justify-content-center'>
                 {visible <= matches.length &&
-                    <button className='loadMore__btn1 d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More Matches</button>
+                    clicks % 2 === 0 ?
+                    <a className='text-decoration-none' href="https://blogvioforyou.netlify.app/" target="_blank">
+                        <button
+                            className='loadMore__btn1 d-flex justify-content-center'
+                            onClick={() => {
+                                setVisible(visible + 5);
+                                // setClicks(clicks + 1)
+                                clicks = clicks+1 ;
+                            }
+                            }>
+                            Load More Matches
+                        </button>
+                    </a>
+                    :
+                    visible <= matches.length && <button className='loadMore__btn1 d-flex justify-content-center' onClick={() => setVisible(visible + 5)}>Load More Matches</button>
                 }
             </div>
         </div>

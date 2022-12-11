@@ -7,28 +7,24 @@ import Current_Matches from './Current_Matches';
 import Crick_CurrMatches_Card from "../Utils/Crick_CurrentMatches_Card/Crick_CurrMatches_Card";
 import Loader from "../Utils/Loader"
 
-function Crick_CurrentMatches(props) {
+function Crick_CurrentMatches() {
 
     const [data, setData] = useState([])
     const [apiStatus, setApiStatus] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(5);
+    const [clicks, setClicks] = useState(0)
+
+    useEffect(()=>console.log("clicks := ",clicks),[clicks])
 
     useEffect(async () => {
 
-        await fetch('http://localhost:5000/crick__currentMatches')
+        await fetch('https://crickworld-backend51234.onrender.com/crick__currentMatches')
             .then(res => res.json())
             .then(res => {
                 setApiStatus(res?.status);
                 res?.data?.filter((match) => match?.date == getTodaysDate())
                     .map((match_obj) => setData(data => [...data, match_obj]))
-
-                // res?.data?.map((obj) => {
-                //     if (obj?.date == getTodaysDate()) {
-                //         setData(data => [...data, obj])
-                //     }
-                // })
-
                 setIsLoading(false)
             })
             .catch(err => console.log(err?.message))
@@ -38,26 +34,26 @@ function Crick_CurrentMatches(props) {
         <div>
             <Secondary_Header />
             <Container>
-                { isLoading && <Loader isLoading={isLoading}/> }
+                {isLoading && <Loader isLoading={isLoading} />}
 
                 <Row>
 
-                    {(apiStatus != 'failure' && data.length > 0) ?
+                    {apiStatus != 'failure' ?
 
                         <Col xs={12} md={8}>
-                            <Crick_CurrMatches_Card matches={data} />
+                            <Crick_CurrMatches_Card matches={data} clicks={clicks} setClicks={setClicks} />
                         </Col>
 
                         :
 
-                        <Col xs={12} md={8}>
+                        !isLoading && <Col xs={12} md={8}>
                             <Current_Matches />
                         </Col>
 
                     }
 
                     <Col xm={12} md={4}>
-                        <NewsApi />
+                        <NewsApi clicks={clicks} setClicks={setClicks}  />
                     </Col>
 
                 </Row>

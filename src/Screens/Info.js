@@ -16,7 +16,7 @@ function Info(props) {
 
         googleAnalytics()
 
-        await fetch('http://localhost:5000/Info')
+        await fetch('https://crickworld-backend51234.onrender.com/Info')
             .then(res => res.json())
             .then(res => {
                 setAllMatchData(res)

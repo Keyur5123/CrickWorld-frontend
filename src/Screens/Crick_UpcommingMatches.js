@@ -15,7 +15,6 @@ function Crick_UpcommingMatches(props) {
         await fetch('https://api.cricapi.com/v1/matches?apikey=b99abe70-6a02-41ec-9741-b50347818ab4&offset=0')
             .then(res => res.json())
             .then(res => {
-                console.log("res :- ", res);
                 setData(res.data)
                 setIsLoading(false)
             })

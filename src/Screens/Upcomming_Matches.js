@@ -8,7 +8,7 @@ import NewsApi from './NewsApi';
 import CircularProgress from '@mui/material/CircularProgress';
 import Loader from "../Utils/Loader"
 
-function Upcomming_Matches(props) {
+function Upcomming_Matches() {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(5);
     const [isLoading, setIsLoading] = useState(true);
@@ -24,10 +24,9 @@ function Upcomming_Matches(props) {
     curr_month = date.toLocaleString('en-us', { month: 'short' });  //'Mar'
 
     useEffect(async () => {
-
         googleAnalytics()
 
-        await fetch('http://localhost:5000/matches/upcomming-matches')
+        await fetch('https://crickworld-backend51234.onrender.com/matches/upcomming-matches')
             .then((res) => res.json())
             .then(res => {
                 const temp = [].concat(res.AllMatch).sort((a, b) => a.Matchtime > b.Matchtime ? 1 : -1);

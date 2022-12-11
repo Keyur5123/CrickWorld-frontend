@@ -9,7 +9,7 @@ import AlertBox from '../Utils/AlertBox/AlertBox';
 import Loader from '../Utils/Loader';
 // import { styled } from '@material-ui/styles';
 
-function Cric_ScoreBoard(props) {
+function Cric_ScoreBoard() {
 
     const params = useParams();
 
@@ -101,9 +101,8 @@ function Cric_ScoreBoard(props) {
         return `${Team?.inning} - ${Team?.r} / ${Team?.w} (${Team?.o})`
     }
 
-
-    useEffect(async () => {
-        await fetch('http://localhost:5000/crick__ScoreBoard', {
+    const getScore = async () => {
+        await fetch('https://crickworld-backend51234.onrender.com/crick__ScoreBoard', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -113,7 +112,7 @@ function Cric_ScoreBoard(props) {
             .then(res => res.json())
             .then(res => {
                 if (res?.status != "failure") {
-                    setIsLoading(true)
+                    // setIsLoading(true)
                     setData(res)
                     setPlayer(res, teamInning)
                     setAllTeamsTotalScore(res?.score)
@@ -121,11 +120,16 @@ function Cric_ScoreBoard(props) {
                 }
                 else {
                     setIsLoading(false)
-                    setTimeout(() => setShow(true), 2000)
+                    // setTimeout(() => setShow(true), 2000)
+                    getScore();
                 }
             })
             .catch(err => console.log(err))
+    }
 
+    useEffect(() => {
+        setIsLoading(true)   // commented on line 117 and written here for getting load visaulization after on click event on REFESH btn.
+        getScore();
     }, [teamInning, refresh, show])
 
     // useEffect(function () {
@@ -142,7 +146,7 @@ function Cric_ScoreBoard(props) {
             <Match_Score_Sec_Header />
             {apiStatus != 'failure' ? <div>
                 <Container>
-                    {isLoading && <Loader isLoading={isLoading} />}
+                    {(isLoading && refresh) && <Loader isLoading={isLoading} />}
                     
                     <Row>
                         <Col xm={12} md={8} className="p-0">
@@ -155,7 +159,7 @@ function Cric_ScoreBoard(props) {
                                         <h5 className='mb-4 mt-2 match__status'>{data?.status}</h5>
 
                                         {
-                                            !isLoading &&
+                                            // !isLoading &&
                                             <div>
                                                 <div className='mt-3'>
 
@@ -183,14 +187,14 @@ function Cric_ScoreBoard(props) {
                                                             }
                                                         </Row>
                                                     </div>
-                                                    <div className='d-flex justify-content-end mt-2'>
+                                                    {!isLoading && <div className='d-flex justify-content-end mt-3'>
                                                         <button
                                                             className='UnSelectedTeam__Button'
-                                                            onClick={() => setRefresh(refresh => !refresh)}
+                                                            onClick={() => setRefresh(!refresh)}
                                                         >
                                                             Refresh
                                                         </button>
-                                                    </div>
+                                                    </div>}
 
                                                     {teamScore.length > 0 ?? <h6>{getTeamAScore(teamScore[0][0])}</h6>}
 
@@ -269,9 +273,8 @@ function Cric_ScoreBoard(props) {
                                     </div>
 
                                     <div className='mt-3 mb-3'>
-
                                         {
-                                            !isLoading && bowlers.length > 0 &&
+                                            bowlers.length > 0 &&
                                             <table className='Score_Table' style={{ width: "100%", boxShadow: "3px 6px 3px #ccc", backgroundColor: "#EEEEEE" }}>
                                                 <thead>
                                                     <tr style={{ backgroundColor: "#BC8CF2" }}>

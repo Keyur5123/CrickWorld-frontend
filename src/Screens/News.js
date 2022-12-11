@@ -90,9 +90,6 @@ function Ipl_News(props) {
         }
     }
 
-    const ads = <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7075823002389650"
-        crossOrigin="anonymous" ></script>
-
     return (
         <div className='Crickbuzz__News'>
             <Container>
@@ -116,8 +113,6 @@ function Ipl_News(props) {
                                     </Card>
                                 </Col>
                             ))}
-
-                    {ads && ads}
                 </Row>
 
                 {(!data && !ipl2022data) &&
